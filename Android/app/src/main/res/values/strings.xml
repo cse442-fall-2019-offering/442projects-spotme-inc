@@ -1,3 +1,56 @@
 <resources>
     <string name="app_name">Spot Me</string>
+    <string name="edit_message">Edit a message</string>
+    <string name="button_next">Next</string>
+    <string name="set_information">I am&#8230;</string>
+    <string name="my_name">My name is:</string>
+    <string name="name">Name&#8230;</string>
+    <string name="age">Age:</string>
+    <string name="gender">Gender:</string>
+    <string name="my_age">&#8230;</string>
+    <string name="my_gender">&#8230;</string>
+    <string name="want">I want to:</string>
+    <string name="goal">I can </string>
+    <string name="lift">I can lift approximately </string>
+    <string name="i_lift">&#8230;</string>
+    <string name="lbs">lbs</string>
+    <string name="seeking">I am seeking: </string>
+    <string name="weight">My weight is&#8230;</string>
+    <string name="my_weight">&#8230;</string>
+
+    <string-array name="select_gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="select_age">
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>40</item>
+    </string-array>
+    <string-array name="i_am_seeking">
+        <item>A male gym partner</item>
+        <item>A female gym partner</item>
+        <item>Either one</item>
+    </string-array>
 </resources>
