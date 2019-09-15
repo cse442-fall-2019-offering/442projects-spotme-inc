@@ -17,7 +17,6 @@
     <string name="seeking">I am seeking: </string>
     <string name="weight">My weight is&#8230;</string>
     <string name="my_weight">&#8230;</string>
-
     <string-array name="select_gender">
         <item>Male</item>
         <item>Female</item>
@@ -53,4 +52,9 @@
         <item>A female gym partner</item>
         <item>Either one</item>
     </string-array>
+    <string name="name">Name</string>
+    <string name="age">Age</string>
+    <string name="fitness_level">Fitness Level</string>
+    <string name="availability">Availability</string>
+    <string name="match_picture_desc">Match Picture</string>
 </resources>
