@@ -20,12 +20,24 @@
         <activity android:name=".MainActivity"> </activity>
 
         <activity android:name=".UserInfoActivity">
+
+        </activity>
+
+
+        <activity android:name=".MatchProfileActivity">
+        </activity>
+
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+
+        <activity android:name=".MainActivity">
+
+        </activity>
+    </application>
 </manifest>
