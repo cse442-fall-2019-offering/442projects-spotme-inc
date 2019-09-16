@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Chat_Screen"
+    tools:showIn="@layout/activity_chat__screen">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        tools:layout_editor_absoluteY="3dp" />
+
+    <EditText
+        android:id="@+id/Enter Message"
+        android:layout_width="317dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Enter Message"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/Send"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.988" />
+
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="379dp"
+        android:layout_height="467dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/Enter Message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/Friend_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    tools:srcCompat="@tools:sample/avatars[0]" />
+
+                <TextView
+                    android:id="@+id/Chat_text1"
+                    android:layout_width="337dp"
+                    android:layout_height="wrap_content"
+                    android:text=" Hello, how're you?"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/Time1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:
+                android:text="2 pm"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/Chat_text2"
+                    android:layout_width="312dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="I'm great! What about you? "
+                    android:textSize="24sp" />
+
+                <ImageView
+                    android:id="@+id/My_image"
+                    android:layout_width="40dp"
+                    android:layout_height="49dp"
+                    tools:srcCompat="@tools:sample/avatars[1]" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/Time2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="2:05 pm"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/friend_image"
+                    android:layout_width="51dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    tools:srcCompat="@tools:sample/avatars[0]" />
+
+                <TextView
+                    android:id="@+id/Chat_text3"
+                    android:layout_width="337dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="I'm doing well. It looks like we've been matched to go work out together. What days and times would work best for you this week?"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/Time3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2:07 pm"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/Chat_text4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="I'm good to go every day except Sunday. can work out in the morning from 7 am to 8:30 am, however, I would prefer if we could go after 5 pm since I won't have to rush to go anywhere. "
+                    android:textSize="24sp" />
+
+                <ImageView
+                    android:id="@+id/my_image2"
+                    android:layout_width="42dp"
+                    android:layout_height="49dp"
+                    android:layout_weight="0"
+                    tools:srcCompat="@tools:sample/avatars[1]" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/Time4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="2:13 pm" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/friend_image2"
+                    android:layout_width="42dp"
+                    android:layout_height="49dp"
+                    android:layout_weight="0"
+                    tools:srcCompat="@tools:sample/avatars[0]" />
+
+                <TextView
+                    android:id="@+id/Text5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="The evenings will work perfectly fine for me. I have to rush to a meeting at the moment, but we can talk more later today."
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/Time5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2:30 pm" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/Send"
+        android:layout_width="57dp"
+        android:layout_height="53dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView4"
+        app:layout_constraintVertical_bias="0.695"
+        app:srcCompat="@android:drawable/ic_menu_send" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
