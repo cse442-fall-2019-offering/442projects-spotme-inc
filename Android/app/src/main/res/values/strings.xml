@@ -4,8 +4,8 @@
     <string name="button_next">Next</string>
     <string name="set_information">I am&#8230;</string>
     <string name="my_name">My name is:</string>
-    <string name="name">Name&#8230;</string>
-    <string name="age">Age:</string>
+    <string name="namen">Name&#8230;</string>
+    <string name="agea">Age:</string>
     <string name="gender">Gender:</string>
     <string name="my_age">&#8230;</string>
     <string name="my_gender">&#8230;</string>
