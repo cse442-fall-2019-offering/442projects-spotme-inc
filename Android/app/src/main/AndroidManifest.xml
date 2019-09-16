@@ -9,6 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".Chat_Screen"
+            android:label="@string/title_activity_chat__screen"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Chat_screen"
+            android:label="@string/title_activity_chat_screen"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
