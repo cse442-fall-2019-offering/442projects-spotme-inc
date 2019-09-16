@@ -57,4 +57,9 @@
     <string name="fitness_level">Fitness Level</string>
     <string name="availability">Availability</string>
     <string name="match_picture_desc">Match Picture</string>
+    <string name="action_sign_in">Login</string>
+    <string name="LoginTest">Login</string>
+    <string name="WhatGym">What gym do you go to?</string>
+    <string name="FirstSignUp">Sign Up</string>
+    <string name="PhoneNumberSignUp">Enter Phone Number:</string>
 </resources>
