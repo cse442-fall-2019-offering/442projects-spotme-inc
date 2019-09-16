@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".userinfo">
+        <activity android:name=".UserInfoActivity">
         </activity>
 
 
