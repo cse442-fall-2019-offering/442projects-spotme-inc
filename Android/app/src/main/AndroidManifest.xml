@@ -9,37 +9,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".RatingActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
         <activity android:name=".MatchListActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
         <activity
-            android:name=".Chat_Screen"
-            android:label="@string/title_activity_chat__screen"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Chat_screen"
+            android:name=".ChatActivity"
             android:label="@string/title_activity_chat_screen"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
         <activity android:name=".UserInfoActivity">
-
         </activity>
-        <activity android:name=".MatchProfileActivity"></activity>
+
+        <activity android:name=".MatchProfileActivity">
+        </activity>
+
         <activity android:name=".LoginActivity">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
-    </application>
 
+        <activity android:name=".MainActivity">
+        </activity>
+    </application>
 </manifest>

@@ -1,16 +1,15 @@
 package edu.buffalo.cse.cse442f19.spotme
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 
-import kotlinx.android.synthetic.main.activity_chat__screen.*
+import kotlinx.android.synthetic.main.activity_chat_screen.*
 
-class Chat_Screen : AppCompatActivity() {
+class ChatActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chat__screen)
+        setContentView(R.layout.activity_chat_screen)
         setSupportActionBar(toolbar)
 
 //        fab.setOnClickListener { view ->
