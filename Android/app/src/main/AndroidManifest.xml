@@ -10,10 +10,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".ReportActivity">
+        </activity>
+
         <activity android:name=".RatingActivity">
         </activity>
 
         <activity android:name=".MatchListActivity">
+        </activity>
+
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -26,13 +36,6 @@
         </activity>
 
         <activity android:name=".MatchProfileActivity">
-        </activity>
-
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".MainActivity">

@@ -23,7 +23,7 @@
     <string name="a_week">a week.</string>
     <string name="r_comments">Additional comments:</string>
     <string name="r_comments_box">This person...</string>
-    <string name="r_title" >Rate Your Partner</string>
+    <string name="r_title">Rate Your Partner</string>
     <string name="r_accurate">Was their profile accurate?</string>
     <string name="r_good">Were they, overall, a good person to workout with?</string>
     <string name="r_help">Were you able to help each other?</string>
@@ -100,4 +100,8 @@
     <string name="freeTime5">2 pm</string>
     <string name="IntroDiscussion2">Hello, how\'re you?</string>
     <string name="enter_message">Enter Message</string>
+    <string name="Report_title">Report This User</string>
+    <string name="Title_report2">Why are you reporting this user?</string>
+    <string name="Submit_button">Submit</string>
+    <string name="Report_description">Enter description here. Any and all details are appreciated.</string>
 </resources>
