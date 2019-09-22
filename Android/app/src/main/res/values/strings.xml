@@ -104,4 +104,11 @@
     <string name="Title_report2">Why are you reporting this user?</string>
     <string name="Submit_button">Submit</string>
     <string name="Report_description">Enter description here. Any and all details are appreciated.</string>
+    <string name="show_me_text_view">Show Me:</string>
+    <string name="max_distance_text_view_">Max Distance:</string>
+    <string name="age_range_text_view_">Age Range:</string>
+    <string name="showme_text_view_">Show me on SpotMe:</string>
+    <string name="choose_text_view_">Choose Availability:</string>
+    <string name="off_text_view">Off</string>
+    <string name="on_text_view">On</string>
 </resources>
