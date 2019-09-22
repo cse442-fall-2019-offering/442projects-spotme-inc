@@ -104,4 +104,6 @@
     <string name="Title_report2">Why are you reporting this user?</string>
     <string name="Submit_button">Submit</string>
     <string name="Report_description">Enter description here. Any and all details are appreciated.</string>
+    <string name="report">Report</string>
+    <string name="rate">Rate</string>
 </resources>
