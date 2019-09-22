@@ -94,10 +94,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/chosenMatch1Pic"
+            <ImageButton
+                android:id="@+id/chosenMatch1Button"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/match_avatar" />
 
             <TextView
@@ -123,10 +124,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/chosenMatch2Pic"
+            <ImageButton
+                android:id="@+id/chosenMatch2Button"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/match_avatar" />
 
             <TextView
@@ -145,10 +147,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/chosenMatch3Pic"
+            <ImageButton
+                android:id="@+id/chosenMatch3Button"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/match_avatar" />
 
             <TextView
@@ -167,10 +170,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/chosenMatch4Pic"
+            <ImageButton
+                android:id="@+id/chosenMatch4Button"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/match_avatar" />
 
             <TextView
@@ -188,10 +192,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/chosenMatch5Pic"
+            <ImageButton
+                android:id="@+id/chosenMatch5Button"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/match_avatar" />
 
             <TextView
