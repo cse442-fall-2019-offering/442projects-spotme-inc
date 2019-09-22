@@ -111,4 +111,6 @@
     <string name="choose_text_view_">Choose Availability:</string>
     <string name="off_text_view">Off</string>
     <string name="on_text_view">On</string>
+    <string name="report">Report</string>
+    <string name="rate">Rate</string>
 </resources>
