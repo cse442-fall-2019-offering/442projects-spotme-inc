@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="false"
+    tools:context=".RatingActivity">
+
+    <Spinner
+        android:id="@+id/spinner8"
+        android:layout_width="78dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="24dp"
+        android:entries="@array/YN_options"
+        app:layout_constraintStart_toEndOf="@+id/textView18"
+        app:layout_constraintTop_toBottomOf="@+id/spinner6" />
+
+    <Spinner
+        android:id="@+id/spinner7"
+        android:layout_width="78dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="236dp"
+        android:layout_marginLeft="236dp"
+        android:layout_marginTop="8dp"
+        android:entries="@array/YN_options"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/TestTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/r_comments"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner7" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="347dp"
+        android:layout_height="99dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:background="#00A2A2A2"
+        android:text="@string/r_comments_box"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="140dp"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="141dp"
+        android:layout_marginRight="141dp"
+        android:text="@string/r_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="345dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/r_good"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner8" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/r_accurate"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+
+    <Spinner
+        android:id="@+id/spinner6"
+        android:layout_width="78dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginLeft="43dp"
+        android:layout_marginTop="27dp"
+        android:entries="@array/YN_options"
+        app:layout_constraintStart_toEndOf="@+id/textView17"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="237dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/r_help"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+</androidx.constraintlayout.widget.ConstraintLayout>

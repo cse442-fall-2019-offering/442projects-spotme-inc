@@ -103,12 +103,24 @@
     <string name="my_gender">&#8230;</string>
     <string name="want">I want to:</string>
     <string name="goal">I can </string>
-    <string name="lift">I can lift approximately </string>
+    <string name="lift">I am a </string>
     <string name="i_lift">&#8230;</string>
     <string name="lbs">lbs</string>
     <string name="seeking">I am seeking: </string>
     <string name="weight">My weight is&#8230;</string>
     <string name="my_weight">&#8230;</string>
+    <string name="gym_attendance">I go to the gym</string>
+    <string name="a_week">a week.</string>
+    <string name="r_comments">Additional comments:</string>
+    <string name="r_comments_box">This person...</string>
+    <string name="r_title" >Rate Your Partner</string>
+    <string name="r_accurate">Was their profile accurate?</string>
+    <string name="r_good">Were they, overall, a good person to workout with?</string>
+    <string name="r_help">Were you able to help each other?</string>
+    <string-array name="YN_options">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
     <string-array name="select_gender">
         <item>Male</item>
         <item>Female</item>
@@ -143,6 +155,16 @@
         <item>A male gym partner</item>
         <item>A female gym partner</item>
         <item>Either one</item>
+    </string-array>
+    <string-array name="skill_level">
+        <item>beginner.</item>
+        <item>intermediate gym-goer.</item>
+        <item>expert gym-goer.</item>
+    </string-array>
+    <string-array name="frequency">
+        <item>1-2 times</item>
+        <item>3-5 times</item>
+        <item>6-7 times</item>
     </string-array>
     <string name="name">Name</string>
     <string name="age">Age</string>
