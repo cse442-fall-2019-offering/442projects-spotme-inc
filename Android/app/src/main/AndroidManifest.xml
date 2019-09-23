@@ -9,30 +9,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".ReportActivity">
+        </activity>
+
         <activity android:name=".RatingActivity">
+        </activity>
+
+        <activity android:name=".MatchListActivity">
+        </activity>
+
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".Chat_Screen"
-            android:label="@string/title_activity_chat__screen"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Chat_screen"
+            android:name=".ChatActivity"
             android:label="@string/title_activity_chat_screen"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
         <activity android:name=".UserInfoActivity">
-
         </activity>
-        <activity android:name=".MatchProfileActivity"></activity>
-        <activity android:name=".LoginActivity">
 
+        <activity android:name=".MatchProfileActivity">
         </activity>
-        <activity android:name=".MainActivity"></activity>
+
+        <activity android:name=".MainActivity">
+        </activity>
+
+        <activity android:name=".Preference">
+        </activity>
     </application>
-
 </manifest>
