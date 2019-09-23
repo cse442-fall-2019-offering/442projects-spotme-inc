@@ -27,6 +27,7 @@
     <string name="r_accurate">Was their profile accurate?</string>
     <string name="r_good">Were they, overall, a good person to workout with?</string>
     <string name="r_help">Were you able to help each other?</string>
+    <string name="back_button">BACK</string>
     <string-array name="YN_options">
         <item>Yes</item>
         <item>No</item>
