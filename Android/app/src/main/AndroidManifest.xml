@@ -30,6 +30,7 @@
             android:name=".ChatActivity"
             android:label="@string/title_activity_chat_screen"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
 
         <activity android:name=".UserInfoActivity">
