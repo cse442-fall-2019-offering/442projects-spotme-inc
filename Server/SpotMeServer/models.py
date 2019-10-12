@@ -1,3 +1,5 @@
+from sqlalchemy import inspect
+
 from .app import db
 
 class User(db.Model):
@@ -33,3 +35,7 @@ class User(db.Model):
     
     # User's distance preference
     radius = db.Column(db.Integer(), nullable=True)
+
+    def to_dict(self):
+        return {c.key: getattr(self, c.key)
+                for c in inspect(self).mapper.column_attrs}
