@@ -62,3 +62,29 @@ def accepted_matches_remove():
 	
 	models.AcceptedMatches.query.filter_by(user1=request.args["user1"], user2=request.args["user2"]).delete()
 	return jsonify({"delete-received": True})
+
+@app.route("/stored-chats", methods=["GET"])
+def chats_get_history():
+	sender = models.User.query.filter_by(id=request.args["id"]).one()
+	receiver = models.User.query.filter_by(id=request.args["other_id"]).one()
+	chat_list = []
+
+	for message in models.ChatMessage.query.filter_by(sender=sender, receiver=receiver).all():
+		chat_list.append(message.to_dict())
+
+	for message in models.ChatMessage.query.filter_by(sender=receiver, receiver=sender).all():
+		chat_list.append(message.to_dict())
+
+	return jsonify({"messages": chat_list})
+
+@app.route("/stored-chats", methods=["PUT"])
+def chats_enter_chat():
+	new_message = models.ChatMessage()
+	new_message.sender = request.args["user1"]
+	new_message.receiver = request.args["user2"]
+	new_message.message = request.args["Message"]
+
+	db.session.add(new_message1)
+	db.session.commit
+
+	return jsonify({"put-received": True})
