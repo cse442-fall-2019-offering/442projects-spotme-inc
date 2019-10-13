@@ -2,6 +2,15 @@ from sqlalchemy import inspect
 
 from .app import db
 
+class AcceptedMatches(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+
+    #The first user of an accepted pair
+    user1 = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
+    
+    #The second user of an accepted pair
+    user2 = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
@@ -35,6 +44,9 @@ class User(db.Model):
     
     # User's distance preference
     radius = db.Column(db.Integer(), nullable=True)
+    accepted_matches = db.relationship("User", secondary="accepted_matches",
+            primaryjoin="User.id==AcceptedMatches.user1",
+            secondaryjoin="User.id==AcceptedMatches.user2")
 
     def to_dict(self):
         return {c.key: getattr(self, c.key)

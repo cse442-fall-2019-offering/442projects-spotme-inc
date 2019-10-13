@@ -3,6 +3,7 @@ from flask import request, jsonify
 
 from .app import app, db
 from . import models
+from sqlalchemy.orm import joinedload
 
 @app.route("/")
 def index():
@@ -27,3 +28,37 @@ def user_update():
             .update(update_dict)
     db.session.commit()
     return ""
+
+@app.route("/accepted-matches", methods=["GET"])
+def accepted_matches_get():
+
+	user = models.User.query.options(joinedload('accepted_matches')).filter_by(id=request.args["id"]).first()
+
+	mylist = []
+
+	for match in user.accepted_matches:
+		mylist.append(match.to_dict())
+
+	return jsonify({"matches":mylist})
+
+@app.route("/accepted-matches", methods=["PUT"])
+def accepted_matches_put():
+	newMatch1 = models.AcceptedMatches()
+	newMatch1.user1 = request.args["user1"]
+	newMatch1.user2 = request.args["user2"]
+
+	newMatch2 = models.AcceptedMatches()
+	newMatch2.user1 = request.args["user2"]
+	newMatch2.user2 = request.args["user1"]
+
+	db.session.add(newMatch1)
+	db.session.add(newMatch2)
+	db.session.commit()
+
+	return jsonify({"put-received": True})
+
+@app.route("/accepted-matches", methods=["DELETE"])
+def accepted_matches_remove():
+	
+	models.AcceptedMatches.query.filter_by(user1=request.args["user1"], user2=request.args["user2"]).delete()
+	return jsonify({"delete-received": True})
