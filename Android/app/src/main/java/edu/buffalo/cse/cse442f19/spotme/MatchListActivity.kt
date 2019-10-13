@@ -2,6 +2,8 @@ package edu.buffalo.cse.cse442f19.spotme
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -62,6 +64,21 @@ class MatchListActivity : AppCompatActivity() {
         chosenMatch5Button.setOnClickListener {
             val intent = Intent(this, ChatActivity :: class.java)
             startActivity(intent)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_my_profile, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.MyProfileB -> {
+                startActivity(Intent(this, MyProfile::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
