@@ -1,6 +1,27 @@
 from sqlalchemy import inspect
+from sqlalchemy.sql import func
 
 from .app import db
+
+class ChatMessage(db.Model):
+
+    id = db.Column(db.Integer(), primary_key=True)
+
+    #First user
+    sender = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
+
+    #Person User1 is speaking to
+    receiver = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
+
+    #Chat message sent from User 1 to receiver
+    message = db.Column(db.String(1000), nullable=False)
+
+    #Tine stamp message was sent at
+    time = db.Column(db.DateTime(), serevr_default=func.now(), nullable=False)
+
+    def to_dict(self):
+        return {c.key: getattr(self, c.key)
+                for c in inspect(self).mapper.column_attrs}
 
 class AcceptedMatches(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
