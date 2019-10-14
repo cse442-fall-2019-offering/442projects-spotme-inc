@@ -1,2 +1,2 @@
 #!/bin/sh
-FLASK_APP=SpotMeServer flask "$@"
+FLASK_APP=. flask "$@"
