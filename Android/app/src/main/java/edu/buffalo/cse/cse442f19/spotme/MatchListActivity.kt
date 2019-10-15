@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 import kotlinx.android.synthetic.main.activity_match_list.*
+import java.io.BufferedInputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 class MatchListActivity : AppCompatActivity() {
 
@@ -24,8 +27,24 @@ class MatchListActivity : AppCompatActivity() {
             startActivity(intent)
         }
         potentialMatch2.setOnClickListener {
-            val intent = Intent(this, MatchProfileActivity :: class.java)
-            startActivity(intent)
+
+            val url = URL("api.spot-me.xyz/accepted-matches")
+            val urlConnection = url.openConnection() as HttpURLConnection
+
+            try {
+
+                urlConnection.requestMethod = "DELETE";
+                urlConnection.addRequestProperty("user1", "THIS USER SOMEHOW KNOW WHO U ARE")
+                urlConnection.addRequestProperty("user2", "POTENTIAL MATCH 2 USER ID")
+//                val inputStream = BufferedInputStream(urlConnection.getInputStream())
+//                readStream(inputStream);
+            } finally {
+
+                urlConnection.disconnect();
+            }
+
+//            val intent = Intent(this, MatchProfileActivity :: class.java)
+//            startActivity(intent)
         }
         potentialMatch3.setOnClickListener {
             val intent = Intent(this, MatchProfileActivity :: class.java)

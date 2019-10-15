@@ -63,7 +63,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestPermissions() {
-        val requiredPerms = listOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+        val requiredPerms = listOf(Manifest.permission.ACCESS_COARSE_LOCATION,
+                                    Manifest.permission.INTERNET)
 
         // Generate list of all missing permissions
         val missingPerms = arrayListOf<String>()
