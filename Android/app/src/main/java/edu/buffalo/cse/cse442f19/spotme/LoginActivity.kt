@@ -5,18 +5,16 @@ import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_login.*
-import java.net.HttpURLConnection
 import java.net.URL
-import java.io.BufferedOutputStream
-import android.os.StrictMode
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.net.URI
 import javax.net.ssl.HttpsURLConnection
-import javax.net.ssl.SSLSocketFactory
 
 
 class LoginActivity : AppCompatActivity() {
@@ -24,89 +22,85 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
         button.setOnClickListener {
             val intent = Intent(this, MainActivity :: class.java)
             startActivity(intent)
         }
 
-        staticlogin1.setOnClickListener {
-            AsyncTaskExample(this).execute()
-//            val url = URL("https://api.spot-me.xyz/user")
-//            val urlConnection = url.openConnection() as HttpURLConnection
-//
-//            try {
-//                GlobalScope.launch {
-//
-//                }
-//                urlConnection.requestMethod = "GET";
-//                urlConnection.addRequestProperty("id", "1")
-//                urlConnection.doOutput = true;
-//
-//
-//                val outputPost = BufferedOutputStream(urlConnection.outputStream)
-//
-//                print(outputPost)
-//                print("MADE IT")
-//                outputPost.flush()
-//                outputPost.close()
-//
-//                //urlConnection.addRequestProperty("user2", "POTENTIAL MATCH 2 USER ID")
-////                val inputStream = BufferedInputStream(urlConnection.getInputStream())
-////                readStream(inputStream);
-//            } finally {
-//
-//                urlConnection.disconnect();
-//            }
+        val selections = arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
+        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, selections)
+
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spinner.adapter = aa;
+
+        var loginAct: LoginActivity = this;
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                var task: SetUserAsyncTask = SetUserAsyncTask(loginAct)
+                task.userId = position + 1;
+                Log.d("Fetching on", "" + task.userId);
+                task.execute()
+            }
         }
     }
-    class AsyncTaskExample(private var activity: LoginActivity?) : AsyncTask<String, String, String>() {
+    class SetUserAsyncTask(private var activity: LoginActivity?) : AsyncTask<String, String, String>() {
+
+        var userId: Int = 1;
 
         override fun onPreExecute() {
+
             super.onPreExecute()
-            //activity?.MyprogressBar?.visibility = View.VISIBLE
         }
 
         override fun doInBackground(vararg p0: String?): String {
 
             var result = ""
+
             try {
-                //var uri = URI.Builder()
-                val url = URL("https://api.spot-me.xyz/user?id=1")
-                val httpURLConnection = url.openConnection() as HttpsURLConnection//TODO CHANGE HTTP vs HTTPS deepnding
+
+                val url = URL("https://api.spot-me.xyz/user?id=$userId")
+                val httpURLConnection = url.openConnection() as HttpsURLConnection//HTTPS
 
                 httpURLConnection.requestMethod = "GET";
-               // httpURLConnection.addRequestProperty("id", "1")
-               // THIS IS FOR POST ONLY httpURLConnection.doOutput = true
                 httpURLConnection.connect()
-                Log.d("", httpURLConnection.url.toString())
-               // Log.d("", httpURLConnection.url.)
+
                 val responseCode: Int = httpURLConnection.responseCode
                 Log.d(activity?.localClassName, "responseCode - $responseCode")
 
                 val inStream: InputStream;
-                if (responseCode < 400) {// == 200) {
-                    //val inStream: InputStream = httpURLConnection.inputStream
-                    inStream = httpURLConnection.inputStream;
+
+                if (responseCode >= 400) {
+
+                    inStream = httpURLConnection.errorStream;
                 } else {
-                    inStream = httpURLConnection.errorStream
+
+                    inStream = httpURLConnection.inputStream
                 }
-                    val isReader = InputStreamReader(inStream)
-                    val bReader = BufferedReader(isReader)
-                    var tempStr: String?
+                val isReader = InputStreamReader(inStream)
+                val bReader = BufferedReader(isReader)
+                var tempStr: String?
 
-                    try {
-
-                        while (true) {
-                            tempStr = bReader.readLine()
-                            if (tempStr == null) {
-                                break
-                            }
-                            result += tempStr
+                try {
+                   while (true) {
+                        tempStr = bReader.readLine()
+                        if (tempStr == null) {
+                            break
                         }
-                    } catch (Ex: Exception) {
-                        Log.e(activity?.localClassName, "Error in convertToString " + Ex.printStackTrace())
+                        result += tempStr
                     }
-//                }
+                } catch (Ex: Exception) {
+
+                    Log.e(activity?.localClassName, "Error in convertToString " + Ex.printStackTrace())
+                }
             } catch (ex: Exception) {
                 Log.d("", "Error in doInBackground " + ex.message)
             }
@@ -114,14 +108,15 @@ class LoginActivity : AppCompatActivity() {
         }
 
         override fun onPostExecute(result: String?) {
+
             super.onPostExecute(result)
-//            activity?.MyprogressBar?.visibility = View.INVISIBLE
+
             if (result == "") {
-                print("RESULT EMPTY");
-//                activity?.my_text?.text = activity?.getString(R.string.network_error)
+
+                Log.d("Result", "EMPTY")
             } else {
-                print(result);
-                Log.d("Res", result)
+
+                Log.d("Result", result)
 
                 var parsedResult = ""
                 var jsonObject: JSONObject = JSONObject(result) ?: return //Returns if null
@@ -141,7 +136,10 @@ class LoginActivity : AppCompatActivity() {
                 user.username = jsonObject.optString("username")
                 user.weight = jsonObject.optDouble("weight")
 
-                Globals.currentUser = user;
+                Globals.currentUser = user; //Set global currentUser.
+
+//              Advance to next screen.
+
             }
         }
     }
