@@ -41,7 +41,8 @@
         <activity android:name=".MainActivity">
         </activity>
 
-        <activity android:name=".Preference">
+        <activity android:name=".PreferenceActivity"
+            android:windowSoftInputMode="stateHidden">
         </activity>
     </application>
 </manifest>

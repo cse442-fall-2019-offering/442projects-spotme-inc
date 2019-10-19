@@ -121,4 +121,16 @@
     <string name="MyProfileAge">Age</string>
     <string name="LinkMyProfile">My Profile</string>
     <string name="PreferenceSet">"Preference "</string>
+    <string name="prefered_level">Prefered Match Fitness Level</string>
+    <string name="birth_date">Birth Date</string>
+    <string-array name="select_distance">
+        <item>Close (5km)</item>
+        <item>Medium (10km)</item>
+        <item>Far (25km)</item>
+    </string-array>
+    <string-array name="select_level">
+        <item>Beginner</item>
+        <item>Intermediate</item>
+        <item>Advanced</item>
+    </string-array>
 </resources>

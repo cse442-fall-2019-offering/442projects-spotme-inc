@@ -21,7 +21,7 @@ class MyProfile : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.PreferenceSettingsB -> {
-                startActivity(Intent(this, Preference::class.java))
+                startActivity(Intent(this, PreferenceActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
