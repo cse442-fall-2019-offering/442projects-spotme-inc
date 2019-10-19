@@ -6,7 +6,7 @@ from flask_migrate import Migrate
 
 app = Flask(__name__)
 
-app.config.from_pyfile(path.join(path.pardir, "config.py"))
+app.config.from_pyfile("config.py")
 
 if not app.config["SECRET_KEY"]:
 	app.logger.fatal("SECRET_KEY must be configured!")
