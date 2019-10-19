@@ -12,7 +12,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import org.json.JSONObject
 import java.io.BufferedReader
-import java.io.InputStream
 import java.io.InputStreamReader
 import javax.net.ssl.HttpsURLConnection
 
@@ -24,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         button.setOnClickListener {
-            val intent = Intent(this, MainActivity :: class.java)
+            val intent = Intent(this, MatchListActivity :: class.java)
             startActivity(intent)
         }
 
@@ -33,113 +32,61 @@ class LoginActivity : AppCompatActivity() {
 
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        spinner.adapter = aa;
-
-        var loginAct: LoginActivity = this;
+        spinner.adapter = aa
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-                var task: SetUserAsyncTask = SetUserAsyncTask(loginAct)
-                task.userId = position + 1;
-                Log.d("Fetching on", "" + task.userId);
+                val task = GetUserAsyncTask()
+                task.userId = position + 1
+                Log.d("Fetching on", "" + task.userId)
                 task.execute()
             }
         }
     }
-    class SetUserAsyncTask(private var activity: LoginActivity?) : AsyncTask<String, String, String>() {
-
-        var userId: Int = 1;
-
-        override fun onPreExecute() {
-
-            super.onPreExecute()
-        }
+    class GetUserAsyncTask : AsyncTask<String, String, String>() {
+        var userId: Int = 1
 
         override fun doInBackground(vararg p0: String?): String {
-
             var result = ""
 
             try {
 
                 val url = URL("https://api.spot-me.xyz/user?id=$userId")
-                val httpURLConnection = url.openConnection() as HttpsURLConnection//HTTPS
+                val conn = url.openConnection() as HttpsURLConnection
 
-                httpURLConnection.requestMethod = "GET";
-                httpURLConnection.connect()
+                conn.requestMethod = "GET"
+                conn.connect()
 
-                val responseCode: Int = httpURLConnection.responseCode
-                Log.d(activity?.localClassName, "responseCode - $responseCode")
+                val responseCode: Int = conn.responseCode
+                Log.d("GetUser", "responseCode - $responseCode")
 
-                val inStream: InputStream;
-
-                if (responseCode >= 400) {
-
-                    inStream = httpURLConnection.errorStream;
+                val inStream = if (responseCode >= 400) {
+                    conn.errorStream
                 } else {
-
-                    inStream = httpURLConnection.inputStream
+                    conn.inputStream
                 }
                 val isReader = InputStreamReader(inStream)
                 val bReader = BufferedReader(isReader)
-                var tempStr: String?
 
-                try {
-                   while (true) {
-                        tempStr = bReader.readLine()
-                        if (tempStr == null) {
-                            break
-                        }
-                        result += tempStr
-                    }
-                } catch (Ex: Exception) {
-
-                    Log.e(activity?.localClassName, "Error in convertToString " + Ex.printStackTrace())
-                }
+                result = bReader.readText()
             } catch (ex: Exception) {
-                Log.d("", "Error in doInBackground " + ex.message)
+                Log.d("GetUser", "Error in doInBackground " + ex.message)
             }
             return result
         }
 
-        override fun onPostExecute(result: String?) {
-
+        override fun onPostExecute(result: String) {
             super.onPostExecute(result)
 
             if (result == "") {
-
                 Log.d("Result", "EMPTY")
             } else {
-
                 Log.d("Result", result)
 
-                var parsedResult = ""
-                var jsonObject: JSONObject = JSONObject(result) ?: return //Returns if null
-
-                var user = User()
-
-                user.dob = jsonObject.getString("dob")
-                user.gender = jsonObject.optInt("gender")
-                user.id = jsonObject.optInt("id")
-                user.lat = jsonObject.optDouble("lat")
-                user.level = jsonObject.optInt("level")
-                user.lon = jsonObject.optDouble("lon")
-                user.name = jsonObject.optString("name")
-                user.partner_gender = jsonObject.optInt("partner_gender")
-                user.partner_level = jsonObject.optInt("partner_level")
-                user.radius = jsonObject.optInt("radius")
-                user.username = jsonObject.optString("username")
-                user.weight = jsonObject.optDouble("weight")
-
-                Globals.currentUser = user; //Set global currentUser.
-
-//              Advance to next screen.
-
+                Globals.currentUser = User.fromJson(JSONObject(result))
             }
         }
     }
