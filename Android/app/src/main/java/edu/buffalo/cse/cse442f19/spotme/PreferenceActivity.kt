@@ -18,7 +18,7 @@ import javax.net.ssl.HttpsURLConnection
 import java.util.*
 
 
-class PreferenceActivity : AppCompatActivity() {
+class PreferenceActivity() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preference)
@@ -120,5 +120,11 @@ class PreferenceActivity : AppCompatActivity() {
                 Log.d("Result", result)
             }
         }
+    }
+
+    override fun onBackPressed() {
+
+        var intent = Intent(this, MyProfile::class.java)
+        startActivity(intent)
     }
 }
