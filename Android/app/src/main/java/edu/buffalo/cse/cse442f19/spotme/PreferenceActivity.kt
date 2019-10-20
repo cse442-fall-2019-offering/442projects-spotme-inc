@@ -55,10 +55,4 @@ class PreferenceActivity() : AppCompatActivity() {
 
         UpdateUserAsyncTask().execute()
     }
-
-    override fun onBackPressed() {
-
-        var intent = Intent(this, MyProfile::class.java)
-        startActivity(intent)
-    }
 }
