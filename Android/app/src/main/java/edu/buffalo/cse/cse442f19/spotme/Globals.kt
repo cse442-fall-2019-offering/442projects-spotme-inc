@@ -4,5 +4,9 @@ class Globals {
     companion object {
         @JvmStatic
         var currentUser: User? = null
+
+        @JvmStatic
+        var currentAcceptedUsers = arrayListOf<User>()
     }
 }
+
