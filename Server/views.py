@@ -2,7 +2,7 @@ import datetime
 from flask import request, jsonify
 
 from .app import app, db
-from . import models
+from . import models, util
 from sqlalchemy.orm import joinedload
 
 @app.route("/")
@@ -86,3 +86,21 @@ def chats_enter_chat():
     db.session.commit
 
     return jsonify({"put-received": True})
+
+@app.route("/matches", methods=["GET"])
+def match_list():
+    user = models.User.query.filter_by(id=request.args["id"]).one()
+
+    other_users = models.User.query.filter(models.User.id != request.args["id"]).all()
+
+    matches = []
+    for ou in other_users:
+        matches.append((util.match_score(user, ou), ou))
+
+    matches.sort(key=lambda x: x[0])
+
+    output = []
+    for m in matches:
+        output.append(m[1].to_dict())
+
+    return jsonify({"matches": output})

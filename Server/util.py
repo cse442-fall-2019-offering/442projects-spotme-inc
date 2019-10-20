@@ -5,9 +5,11 @@ def match_score(user1, user2):
 
     score = 0
 
-    distance = haversine(user1.lat, user1.lon, user2.lat, user2.lon)
-    distance = max(distance / 1000, 1)
-    score += DIST_FACTOR / distance**2
+    if user1.lat is not None and user1.lon is not None and \
+            user2.lat is not None and user2.lon is not None:
+        distance = haversine(user1.lat, user1.lon, user2.lat, user2.lon)
+        distance = max(distance / 1000, 1)
+        score += DIST_FACTOR / distance**2
 
     return score
 
