@@ -3,3 +3,6 @@
 
 # Database connection information in SQLAlchemy URI format.
 #SQLALCHEMY_DATABASE_URI = "sqlite:///spotme.sqlite"
+
+# Silence deprecation warnings
+#SQLALCHEMY_TRACK_MODIFICATIONS = False
