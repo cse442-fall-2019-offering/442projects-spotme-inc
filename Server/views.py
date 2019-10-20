@@ -97,7 +97,7 @@ def match_list():
     for ou in other_users:
         matches.append((util.match_score(user, ou), ou))
 
-    matches.sort(key=lambda x: x[0])
+    matches.sort(key=lambda x: x[0], reverse=True)
 
     output = []
     for m in matches:
