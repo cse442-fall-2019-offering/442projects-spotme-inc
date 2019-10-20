@@ -50,6 +50,8 @@ class LoginActivity : AppCompatActivity() {
         var userId: Int = 1
 
         override fun doInBackground(vararg p0: String?): String {
+
+            Log.d("HELLO", "MADE IT")
             var result = ""
 
             try {

@@ -16,6 +16,22 @@ class User {
     var partner_level: Int = 0
     var radius: Int = 10
 
+    fun getProfileFields(): Map<String, String> {
+
+        return mapOf<String, String>(
+            Pair<String, String>("Name", "$name"),
+            Pair<String, String>("Username", "$username"),
+            Pair<String, String>("Gender", "$gender"),
+            Pair<String, String>("Birthday", "$dob"),
+            Pair<String, String>("Level", "$level"),
+            Pair<String, String>("Weight", "$weight"),
+            Pair<String, String>("Lat", "$lat"),
+            Pair<String, String>("Lon", "$lon")
+
+        );
+//        return arrayOf<String>("$name", "$username", "$dob", "$gender", "$level", "$weight", "$lat", "$lon")
+    }
+
     companion object {
         @JvmStatic
         fun fromJson(jsonObject: JSONObject): User {
