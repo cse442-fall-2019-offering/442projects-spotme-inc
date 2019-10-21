@@ -40,60 +40,6 @@ class MatchListActivity : AppCompatActivity() {
 //                .setAction("Action", null).show()
 //        }
 
-
-        potentialMatch1.setOnClickListener {
-            val intent = Intent(this, MatchProfileActivity :: class.java)
-            startActivity(intent)
-            Globals.selectedMatch = 0
-        }
-        potentialMatch2.setOnClickListener {
-            Globals.selectedMatch = 1
-
-            /*val url = URL("api.spot-me.xyz/accepted-matches")
-            val urlConnection = url.openConnection() as HttpURLConnection
-
-            try {
-
-                urlConnection.requestMethod = "DELETE"
-                urlConnection.addRequestProperty("user1", "THIS USER SOMEHOW KNOW WHO U ARE")
-                urlConnection.addRequestProperty("user2", "POTENTIAL MATCH 2 USER ID")
-//                val inputStream = BufferedInputStream(urlConnection.getInputStream())
-//                readStream(inputStream);
-            } finally {
-
-                urlConnection.disconnect()
-            }
-                urlConnection.disconnect();
-            }*/
-
-            val intent = Intent(this, MatchProfileActivity :: class.java)
-            startActivity(intent)
-        }
-        potentialMatch3.setOnClickListener {
-            Globals.selectedMatch = 2
-
-            val intent = Intent(this, MatchProfileActivity :: class.java)
-            startActivity(intent)
-        }
-        potentialMatch4.setOnClickListener {
-            Globals.selectedMatch = 3
-
-            val intent = Intent(this, MatchProfileActivity :: class.java)
-            startActivity(intent)
-        }
-        potentialMatch5.setOnClickListener {
-            Globals.selectedMatch = 4
-
-            val intent = Intent(this, MatchProfileActivity :: class.java)
-            startActivity(intent)
-        }
-        potentialMatch6.setOnClickListener {
-            Globals.selectedMatch = 5
-
-            val intent = Intent(this, MatchProfileActivity :: class.java)
-            startActivity(intent)
-        }
-
         val task = GetAcceptedMatchesAsyncTask(this)
         task.userId = Globals.currentUser!!.id
         task.execute()
@@ -114,8 +60,45 @@ class MatchListActivity : AppCompatActivity() {
         for (i in Globals.currentAcceptedUsers) {
             displayUser(i)
         }
+
+        val potentialTask = GetPotentialMatchesAsyncTask(this)
+        potentialTask.userId = Globals.currentUser!!.id
+        potentialTask.execute()
     }
 
+    fun clearPotentialMatches() {
+
+        potentialMatchLinLayout.removeAllViews()
+    }
+
+//  Display Potential Match
+    fun addPotentialMatch(user: User) {
+
+        for (u: User in Globals.currentAcceptedUsers) {
+
+//          Already accepted this user.
+            if (u.id == user.id) {
+
+                return;
+            }
+        }
+        var profileButton: ImageButton = ImageButton(this)
+
+        profileButton.setImageResource(R.drawable.match_avatar)
+        profileButton.scaleType = ImageView.ScaleType.CENTER_INSIDE
+
+        profileButton.setOnClickListener {
+            Globals.selectedMatch = user.id
+            var intent = Intent(this, MatchProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        potentialMatchLinLayout.addView(profileButton)
+        profileButton.layoutParams.width = 250;
+        profileButton.layoutParams.height = 250;
+    }
+
+//  Display Accepted Match
     fun displayUser(user: User) {
         var acceptedMatchesLayout = LinearLayout(this)
         var acceptedMatchImage = ImageButton(this)
@@ -138,7 +121,6 @@ class MatchListActivity : AppCompatActivity() {
             var intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("match_id", user.id)
             startActivity(intent)
-
         }
 
 //        Globals.currentUser.id
@@ -164,6 +146,98 @@ class MatchListActivity : AppCompatActivity() {
 //        acceptedMatchesView.addView(acceptedMatchName)
         acceptedMatchesView.addView(acceptedMatchesLayout)
 
+    }
+
+    class GetPotentialMatchesAsyncTask(private var activity: MatchListActivity) : AsyncTask<String, String, String>() {
+
+        var userId: Int = 1
+
+
+
+        override fun doInBackground(vararg p0: String?): String {
+            var result = ""
+
+            try {
+
+                val url = URL("https://api.spot-me.xyz/matches?id=$userId")
+                val conn = url.openConnection() as HttpsURLConnection
+
+                conn.requestMethod = "GET"
+                conn.connect()
+
+                val responseCode: Int = conn.responseCode
+                Log.d("GetUser", "responseCode - $responseCode")
+
+                val inStream = if (responseCode >= 400) {
+                    conn.errorStream
+                } else {
+                    conn.inputStream
+                }
+                val isReader = InputStreamReader(inStream)
+                val bReader = BufferedReader(isReader)
+
+                result = bReader.readText()
+            } catch (ex: Exception) {
+                Log.d("GetUser", "Error in doInBackground " + ex.message)
+            }
+
+
+            return result
+        }
+
+        override fun onPostExecute(result: String) {
+            super.onPostExecute(result)
+
+            if (result == "") {
+                Log.d("Result", "EMPTY")
+            } else {
+                Log.d("Result", result)
+
+                var responseObj: JSONObject = JSONObject(result)
+
+                Log.d("Show User ", responseObj.toString())
+
+                var matchArray: JSONArray = responseObj.getJSONArray("matches")
+                Log.d("Match array size", ""+matchArray.length())
+                activity.clearPotentialMatches()
+
+                for (i in 0 until matchArray.length()) {
+
+                    var userJsonObj: JSONObject = matchArray[i] as JSONObject
+                    var userObj = User.fromJson(userJsonObj)
+                    Log.d("USER OBJ", userObj.toString())
+                    activity.addPotentialMatch(userObj)
+                }
+                /*var user1Json = matchArray[0] as JSONObject
+                Globals.otherUser1 = User.fromJson(user1Json)
+
+                var user2Json = matchArray[1] as JSONObject
+                Globals.otherUser2 = User.fromJson(user2Json)
+
+                var user3Json = matchArray[2] as JSONObject
+                Globals.otherUser3 = User.fromJson(user3Json)
+
+                var user4Json = matchArray[3] as JSONObject
+                Globals.otherUser4 = User.fromJson(user4Json)
+
+                var user5Json = matchArray[4] as JSONObject
+                Globals.otherUser5 = User.fromJson(user5Json)
+
+                var user6Json = matchArray[5] as JSONObject
+                Globals.otherUser6 = User.fromJson(user6Json)
+
+                var user7Json = matchArray[6] as JSONObject
+                Globals.otherUser7 = User.fromJson(user7Json)
+
+                var user8Json = matchArray[7] as JSONObject
+                Globals.otherUser8 = User.fromJson(user8Json)
+
+                var user9Json = matchArray[8] as JSONObject
+                Globals.otherUser9 = User.fromJson(user9Json)*/
+
+                //activity.displayProf()
+            }
+        }
     }
 
     // Getting the accepted matches list
