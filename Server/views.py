@@ -67,23 +67,25 @@ def chats_get_history():
     receiver = models.User.query.filter_by(id=request.args["other_id"]).one()
     chat_list = []
 
-    for message in models.ChatMessage.query.filter_by(sender=sender, receiver=receiver).all():
+    for message in models.ChatMessage.query.filter_by(sender=sender.id, receiver=receiver.id).all():
         chat_list.append(message.to_dict())
 
-    for message in models.ChatMessage.query.filter_by(sender=receiver, receiver=sender).all():
+    for message in models.ChatMessage.query.filter_by(sender=receiver.id, receiver=sender.id).all():
         chat_list.append(message.to_dict())
 
-    return jsonify({"messages": chat_list})
+    chat_list.sort(key=lambda x: x["time"])
+
+	return jsonify({"messages": chat_list})
 
 @app.route("/stored-chats", methods=["PUT"])
 def chats_enter_chat():
     new_message = models.ChatMessage()
     new_message.sender = request.args["user1"]
     new_message.receiver = request.args["user2"]
-    new_message.message = request.args["Message"]
+    new_message.message = request.args["message"]
 
-    db.session.add(new_message1)
-    db.session.commit
+    db.session.add(new_message)
+    db.session.commit()
 
     return jsonify({"put-received": True})
 

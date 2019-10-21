@@ -23,7 +23,7 @@ class ChatMessage(db.Model):
             "sender": self.sender,
             "receiver": self.receiver,
             "message": self.message,
-            "time": self.time.strftime("%Y-m-dT%H:%M:%S.%f%z"),
+            "time": self.time.strftime("%Y-%m-%dT%H:%M:%S.%f%z"),
         }
 
 class AcceptedMatches(db.Model):
