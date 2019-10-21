@@ -31,6 +31,7 @@ class MatchListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_match_list)
        // setSupportActionBar(toolbar)
 
@@ -38,6 +39,7 @@ class MatchListActivity : AppCompatActivity() {
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show()
 //        }
+
 
         potentialMatch1.setOnClickListener {
             val intent = Intent(this, MatchProfileActivity :: class.java)
