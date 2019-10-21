@@ -7,9 +7,10 @@
     tools:context=".MatchProfileActivity">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/linlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="@dimen/text_margin">
 
         <ImageView
@@ -20,7 +21,7 @@
             app:srcCompat="@drawable/match_avatar" />
 
         <TextView
-            android:id="@+id/matchName"
+            android:id="@+id/matchName1"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,41 +31,43 @@
             android:id="@+id/matchDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="24dp"
-            android:text="Description" />
+            android:paddingBottom="24dp" />
 
         <TextView
+            android:id="@+id/age"
             style="@style/dialog_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/age"/>
+            android:text="@string/age" />
 
         <TextView
-            style="@style/dialog_value"
             android:id="@+id/match_age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            style="@style/dialog_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/fitness_level"/>
-
-        <TextView
             style="@style/dialog_value"
-            android:id="@+id/match_fitness_level"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/gender"
             style="@style/dialog_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/availability"/>
+            android:text="Gender" />
 
         <TextView
-            android:id="@+id/calendarView"
+            android:id="@+id/match_gender"
+            style="@style/dialog_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/fitlev"
+            style="@style/dialog_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fitness_level" />
+
+        <TextView
+            android:id="@+id/fitnessLevel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

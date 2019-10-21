@@ -49,6 +49,31 @@ class LoginActivity : AppCompatActivity() {
     class GetUserAsyncTask : AsyncTask<String, String, String>() {
         var userId: Int = 1
 
+        fun testFun (x : Int){
+            try {
+                val url = URL("https://api.spot-me.xyz/user?id=$x")
+                val conn = url.openConnection() as HttpsURLConnection
+
+                conn.requestMethod = "GET"
+                conn.connect()
+
+                val responseCode: Int = conn.responseCode
+                Log.d("GetUser", "responseCode - $responseCode")
+
+                val inStream = if (responseCode >= 400) {
+                    conn.errorStream
+                } else {
+                    conn.inputStream
+                }
+                val isReader = InputStreamReader(inStream)
+                val bReader = BufferedReader(isReader)
+
+                Globals.oustring = bReader.readText()
+            } catch (ex: Exception) {
+                Log.d("GetUser", "Error in doInBackground " + ex.message)
+            }
+        }
+
         override fun doInBackground(vararg p0: String?): String {
 
             Log.d("HELLO", "MADE IT")
@@ -77,6 +102,48 @@ class LoginActivity : AppCompatActivity() {
             } catch (ex: Exception) {
                 Log.d("GetUser", "Error in doInBackground " + ex.message)
             }
+
+            /*var arr = mutableListOf<Int>()
+            for (i in 1..10) if (i != userId) arr.add(i)
+            testFun(arr.get(0))
+            Globals.otherUser1 = User.fromJson(JSONObject(Globals.oustring))
+            testFun(arr.get(1))
+            Globals.otherUser2 = User.fromJson(JSONObject(Globals.oustring))
+            testFun(arr.get(2))
+            Globals.otherUser3 = User.fromJson(JSONObject(Globals.oustring))
+            testFun(arr.get(3))
+            Globals.otherUser4 = User.fromJson(JSONObject(Globals.oustring))
+            testFun(arr.get(4))
+            Globals.otherUser5 = User.fromJson(JSONObject(Globals.oustring))
+            testFun(arr.get(5))
+            Globals.otherUser6 = User.fromJson(JSONObject(Globals.oustring))*/
+
+            /*var arrUsers = mutableListOf<User>()
+            testFun(arr.get(0))
+            arrUsers.add(User.fromJson(JSONObject(Globals.oustring)))
+            testFun(arr.get(1))
+            arrUsers.add(User.fromJson(JSONObject(Globals.oustring)))
+            testFun(arr.get(2))
+            arrUsers.add(User.fromJson(JSONObject(Globals.oustring)))
+            testFun(arr.get(3))
+            arrUsers.add(User.fromJson(JSONObject(Globals.oustring)))
+            testFun(arr.get(4))
+            arrUsers.add(User.fromJson(JSONObject(Globals.oustring)))
+            testFun(arr.get(5))
+            arrUsers.add(User.fromJson(JSONObject(Globals.oustring)))
+            testFun(arr.get(6))
+            arrUsers.add(User.fromJson(JSONObject(Globals.oustring)))
+            testFun(arr.get(7))
+            arrUsers.add(User.fromJson(JSONObject(Globals.oustring)))
+            testFun(arr.get(8))
+            arrUsers.add(User.fromJson(JSONObject(Globals.oustring)))
+
+            var closestUsers = mutableListOf<User>()
+            var dis =
+
+            for (item in arrUsers){
+            }*/
+
             return result
         }
 

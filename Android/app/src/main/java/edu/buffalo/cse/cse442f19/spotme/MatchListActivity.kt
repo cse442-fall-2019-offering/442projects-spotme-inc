@@ -33,10 +33,12 @@ class MatchListActivity : AppCompatActivity() {
         potentialMatch1.setOnClickListener {
             val intent = Intent(this, MatchProfileActivity :: class.java)
             startActivity(intent)
+            Globals.selectedMatch = 0
         }
         potentialMatch2.setOnClickListener {
+            Globals.selectedMatch = 1
 
-            val url = URL("api.spot-me.xyz/accepted-matches")
+            /*val url = URL("api.spot-me.xyz/accepted-matches")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {
@@ -50,23 +52,33 @@ class MatchListActivity : AppCompatActivity() {
 
                 urlConnection.disconnect()
             }
+                urlConnection.disconnect();
+            }*/
 
-//            val intent = Intent(this, MatchProfileActivity :: class.java)
-//            startActivity(intent)
+            val intent = Intent(this, MatchProfileActivity :: class.java)
+            startActivity(intent)
         }
         potentialMatch3.setOnClickListener {
+            Globals.selectedMatch = 2
+
             val intent = Intent(this, MatchProfileActivity :: class.java)
             startActivity(intent)
         }
         potentialMatch4.setOnClickListener {
+            Globals.selectedMatch = 3
+
             val intent = Intent(this, MatchProfileActivity :: class.java)
             startActivity(intent)
         }
         potentialMatch5.setOnClickListener {
+            Globals.selectedMatch = 4
+
             val intent = Intent(this, MatchProfileActivity :: class.java)
             startActivity(intent)
         }
         potentialMatch6.setOnClickListener {
+            Globals.selectedMatch = 5
+
             val intent = Intent(this, MatchProfileActivity :: class.java)
             startActivity(intent)
         }
