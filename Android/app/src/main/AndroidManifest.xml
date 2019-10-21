@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.buffalo.cse.cse442f19.spotme">
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -9,16 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".ReportActivity">
-        </activity>
-
-        <activity android:name=".RatingActivity">
-        </activity>
-
-        <activity android:name=".MatchListActivity">
-        </activity>
-
+        <activity android:name=".MyProfile"></activity>
+        <activity android:name=".ReportActivity"></activity>
+        <activity android:name=".RatingActivity"></activity>
+        <activity android:name=".MatchListActivity"></activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,9 +39,11 @@
         </activity>
 
         <activity android:name=".MainActivity">
+
         </activity>
 
-        <activity android:name=".Preference">
+        <activity android:name=".PreferenceActivity"
+            android:windowSoftInputMode="stateHidden">
         </activity>
     </application>
 </manifest>
