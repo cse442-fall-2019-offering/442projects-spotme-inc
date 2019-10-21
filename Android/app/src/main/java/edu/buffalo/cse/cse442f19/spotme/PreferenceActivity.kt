@@ -58,7 +58,7 @@ class PreferenceActivity() : AppCompatActivity() {
     
     override fun onBackPressed() {
 
-        var intent = Intent(this, MatchProfileActivity::class.java)
+        var intent = Intent(this, MyProfile::class.java)
         startActivity(intent)
     }
 }
