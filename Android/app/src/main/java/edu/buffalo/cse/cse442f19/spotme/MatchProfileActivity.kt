@@ -95,10 +95,11 @@ class MatchProfileActivity : AppCompatActivity() {
             task.userId2 = Globals.otherUser1!!.id
             task.execute();
 
-            var task2 = PutAcceptedMatchesAsyncTask()
-            task2.userId2 = Globals.currentUser!!.id
-            task2.userId1 = Globals.otherUser1!!.id
-            task2.execute();
+//            Let the API handle it.
+//            var task2 = PutAcceptedMatchesAsyncTask()
+//            task2.userId2 = Globals.currentUser!!.id
+//            task2.userId1 = Globals.otherUser1!!.id
+//            task2.execute();
         }
        // linlayout.addView(matchName)
 

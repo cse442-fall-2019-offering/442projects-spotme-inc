@@ -133,10 +133,11 @@ class MatchListActivity : AppCompatActivity() {
             task.userId2 = user.id
             task.execute()
 
-            val task2 = DeleteAcceptedMatchesAsyncTask()
-            task2.userId2 = Globals.currentUser!!.id
-            task2.userId1 = user.id
-            task2.execute()
+//            Letting the api handle it
+//            val task2 = DeleteAcceptedMatchesAsyncTask()
+//            task2.userId2 = Globals.currentUser!!.id
+//            task2.userId1 = user.id
+//            task2.execute()
 
             acceptedMatchesView.removeView(acceptedMatchesLayout)
         }
