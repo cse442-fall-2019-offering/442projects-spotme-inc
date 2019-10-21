@@ -4,6 +4,7 @@ class Globals {
     companion object {
         @JvmStatic
         var currentUser: User? = null
+        var currentAcceptedUsers = arrayListOf<User>()
         var otherUser1: User? = null
         var otherUser2: User? = null
         var otherUser3: User? = null
@@ -17,3 +18,4 @@ class Globals {
         var selectedMatch: Int? = null
     }
 }
+
