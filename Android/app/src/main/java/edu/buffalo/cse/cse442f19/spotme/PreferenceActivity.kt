@@ -8,7 +8,7 @@ import android.widget.AdapterView
 import kotlinx.android.synthetic.main.activity_preference.*
 
 
-class PreferenceActivity : AppCompatActivity() {
+class PreferenceActivity() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preference)

@@ -81,6 +81,8 @@
     <string name="age">Age</string>
     <string name="fitness_level">Fitness Level</string>
     <string name="availability">Availability</string>
+    <string name="distance">Distance</string>
+    <string name="TheGender">Gender</string>
     <string name="match_picture_desc">Match Picture</string>
     <string name="action_sign_in">Login</string>
     <string name="LoginTest">Login</string>
