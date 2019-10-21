@@ -25,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
         button.setOnClickListener {
             val intent = Intent(this, MatchListActivity :: class.java)
             startActivity(intent)
+
         }
 
         val selections = arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
