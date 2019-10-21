@@ -23,63 +23,16 @@
             android:text="SpotMe"
             android:textSize="75sp" />
 
-        <ImageView
-            android:id="@+id/potentialMatch1"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/match_avatar" />
-
         <HorizontalScrollView
+            android:id="@+id/potentialMatchScroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/potentialMatchLinLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/potentialMatch2"
-                    android:layout_width="105dp"
-                    android:layout_height="105dp"
-                    android:layout_weight="1"
-                    android:scaleType="centerInside"
-                    app:srcCompat="@drawable/match_avatar" />
-
-                <ImageButton
-                    android:id="@+id/potentialMatch3"
-                    android:layout_width="105dp"
-                    android:layout_height="105dp"
-                    android:layout_weight="1"
-                    android:scaleType="centerInside"
-                    app:srcCompat="@drawable/match_avatar" />
-
-                <ImageButton
-                    android:id="@+id/potentialMatch4"
-                    android:layout_width="105dp"
-                    android:layout_height="105dp"
-                    android:layout_weight="1"
-                    android:scaleType="centerInside"
-                    app:srcCompat="@drawable/match_avatar" />
-
-                <ImageButton
-                    android:id="@+id/potentialMatch5"
-                    android:layout_width="105dp"
-                    android:layout_height="105dp"
-                    android:layout_weight="1"
-                    android:scaleType="centerInside"
-                    app:srcCompat="@drawable/match_avatar" />
-
-                <ImageButton
-                    android:id="@+id/potentialMatch6"
-                    android:layout_width="105dp"
-                    android:layout_height="105dp"
-                    android:layout_weight="1"
-                    android:scaleType="centerInside"
-                    app:srcCompat="@drawable/match_avatar" />
-
-            </LinearLayout>
+                android:orientation="horizontal"/>
         </HorizontalScrollView>
 
         <View

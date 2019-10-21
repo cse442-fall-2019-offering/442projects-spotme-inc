@@ -11,6 +11,7 @@ import edu.buffalo.cse.cse442f19.spotme.Globals.Companion.otherUser1
 import edu.buffalo.cse.cse442f19.spotme.utils.Date
 import edu.buffalo.cse.cse442f19.spotme.utils.Date.Companion.getAge
 import kotlinx.android.synthetic.main.activity_match_profile.*
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -88,10 +89,6 @@ class MatchProfileActivity : AppCompatActivity() {
         }
 
         acceptMatchButton.setOnClickListener {
-
-            //Globals.currentAcceptedUsers.add(Globals.otherUser1!!)
-
-            //TODO set put request to API
 
             var task = PutAcceptedMatchesAsyncTask()
             task.userId1 = Globals.currentUser!!.id
@@ -210,19 +207,31 @@ class MatchProfileActivity : AppCompatActivity() {
                 Loop over each JSON object and create a User from that json
                 Display those users**/
 
-                var matchArray = responseObj.getJSONArray("matches")
-                var user1Json = matchArray[0] as JSONObject
+                var matchArray: JSONArray = responseObj.getJSONArray("matches")
 
-                for (i in 0..(matchArray.length())) {
-                    //var user1Json = matchArray[0] as JSONObject
-                    if(i == Globals.selectedMatch){
-                        user1Json = matchArray[i] as JSONObject
+                var selectedUser = matchArray[0] as JSONObject;
+
+                for (i in 0 until matchArray.length()) {
+                    var obj: JSONObject = matchArray[i] as JSONObject
+                    var userObj = User.fromJson(obj)
+
+                    if (userObj.id == Globals.selectedMatch) {
+                        selectedUser = obj;
+                        break;
                     }
-                    /*Globals.otherUser1 = User.fromJson(user1Json)*/
-
-                    //activity.addUser(user1Json)
                 }
-                activity.addUser(user1Json)
+              //  var user1Json = matchArray[0] as JSONObject
+
+//                for (i in 0..(matchArray.length())) {
+//                    //var user1Json = matchArray[0] as JSONObject
+//                    if(i == Globals.selectedMatch){
+//                        user1Json = matchArray[i] as JSONObject
+//                    }
+//                    /*Globals.otherUser1 = User.fromJson(user1Json)*/
+//
+//                    //activity.addUser(user1Json)
+//                }
+                activity.addUser(selectedUser)
                 /*var user1Json = matchArray[0] as JSONObject
                 Globals.otherUser1 = User.fromJson(user1Json)
 
