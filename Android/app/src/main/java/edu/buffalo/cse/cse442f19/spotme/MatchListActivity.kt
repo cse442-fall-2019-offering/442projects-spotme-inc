@@ -4,9 +4,13 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
+import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -14,8 +18,13 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
 import kotlinx.android.synthetic.main.activity_match_list.*
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
+import javax.net.ssl.HttpsURLConnection
 
 class MatchListActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -82,26 +91,10 @@ class MatchListActivity : AppCompatActivity() {
             val intent = Intent(this, MatchProfileActivity :: class.java)
             startActivity(intent)
         }
-        chosenMatch1Button.setOnClickListener {
-            val intent = Intent(this, ChatActivity :: class.java)
-            startActivity(intent)
-        }
-        chosenMatch2Button.setOnClickListener {
-            val intent = Intent(this, ChatActivity :: class.java)
-            startActivity(intent)
-        }
-        chosenMatch3Button.setOnClickListener {
-            val intent = Intent(this, ChatActivity :: class.java)
-            startActivity(intent)
-        }
-        chosenMatch4Button.setOnClickListener {
-            val intent = Intent(this, ChatActivity :: class.java)
-            startActivity(intent)
-        }
-        chosenMatch5Button.setOnClickListener {
-            val intent = Intent(this, ChatActivity :: class.java)
-            startActivity(intent)
-        }
+
+        val task = GetAcceptedMatchesAsyncTask(this)
+        task.userId = Globals.currentUser!!.id
+        task.execute()
 
         requestPermissions()
 
@@ -114,7 +107,170 @@ class MatchListActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+    fun taskComplete() {
+        for (i in Globals.currentAcceptedUsers) {
+            displayUser(i)
+        }
+    }
+
+    fun displayUser(user: User) {
+        var acceptedMatchesLayout = LinearLayout(this)
+        var acceptedMatchImage = ImageButton(this)
+        var acceptedMatchName = TextView(this)
+        var unmatchButton = Button(this)
+
+        acceptedMatchName.setText(user.name)
+        acceptedMatchName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24f)
+
+        acceptedMatchesLayout.addView(acceptedMatchImage)
+
+        acceptedMatchesLayout.orientation = LinearLayout.HORIZONTAL
+
+        acceptedMatchImage.layoutParams.width = 250
+        acceptedMatchImage.layoutParams.height = 250
+        acceptedMatchImage.setImageResource(R.drawable.match_avatar)
+        acceptedMatchImage.scaleType = ImageView.ScaleType.CENTER_INSIDE
+        acceptedMatchImage.setOnClickListener {
+
+            var intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("match_id", user.id)
+            startActivity(intent)
+
+        }
+
+//        Globals.currentUser.id
+//            user.id
+
+        unmatchButton.text = "Unmatch"
+        unmatchButton.setOnClickListener() {
+            val task = DeleteAcceptedMatchesAsyncTask()
+            task.userId1 = Globals.currentUser!!.id
+            task.userId2 = user.id
+            task.execute()
+
+            val task2 = DeleteAcceptedMatchesAsyncTask()
+            task2.userId2 = Globals.currentUser!!.id
+            task2.userId1 = user.id
+            task2.execute()
+
+            acceptedMatchesView.removeView(acceptedMatchesLayout)
+        }
+
+        acceptedMatchesLayout.addView(acceptedMatchName)
+        acceptedMatchesLayout.addView(unmatchButton)
+//        acceptedMatchesView.addView(acceptedMatchName)
+        acceptedMatchesView.addView(acceptedMatchesLayout)
+
+    }
+
+    // Getting the accepted matches list
+    class GetAcceptedMatchesAsyncTask(private var matchListActivity: MatchListActivity) : AsyncTask<String, String, String>() {
+        var userId: Int = 1
+
+        override fun doInBackground(vararg p0: String?): String {
+            var result = ""
+
+            try {
+
+                val url = URL("https://api.spot-me.xyz/accepted-matches?id=$userId")
+                val conn = url.openConnection() as HttpsURLConnection
+
+                conn.requestMethod = "GET"
+                conn.connect()
+
+                val responseCode: Int = conn.responseCode
+                Log.d("GetAcceptedMatches", "responseCode - $responseCode")
+
+                val inStream = if (responseCode >= 400) {
+                    conn.errorStream
+                } else {
+                    conn.inputStream
+                }
+                val isReader = InputStreamReader(inStream)
+                val bReader = BufferedReader(isReader)
+
+                result = bReader.readText()
+
+                var obj: JSONObject = JSONObject(result)
+                var array: JSONArray = obj.getJSONArray("matches")
+
+                Globals.currentAcceptedUsers.clear()
+
+                for (i in 0 until array.length()) {
+
+                    var userObj: JSONObject = array[i] as JSONObject;
+                    var user = User.fromJson(userObj)
+                    Globals.currentAcceptedUsers.add(user);
+                }
+
+            } catch (ex: Exception) {
+                Log.d("GetAcceptedMatches", "Error in doInBackground " + ex.message)
+
+            }
+
+            return result;
+        }
+
+
+        override fun onPostExecute(result: String) {
+            super.onPostExecute(result)
+
+            matchListActivity.taskComplete()
+        }
+    }
+
+    // Deleting Accepted matches
+    class DeleteAcceptedMatchesAsyncTask : AsyncTask<String, String, String>() {
+        var userId1: Int = 1
+        var userId2: Int = 2
+
+        override fun doInBackground(vararg p0: String?): String {
+            var result = ""
+
+            try {
+
+                val url = URL("https://api.spot-me.xyz/accepted-matches?user1=$userId1&user2=$userId2")
+                val conn = url.openConnection() as HttpsURLConnection
+
+
+                conn.requestMethod = "DELETE"
+                conn.doOutput = true
+                conn.setRequestProperty("Content-Type", "application/json; utf-8")
+                conn.setRequestProperty("Accept", "application/json")
+                conn.connect()
+
+                val responseCode: Int = conn.responseCode
+                Log.d("DeletedAcceptedMatches", "responseCode - $responseCode")
+
+                val inStream = if (responseCode >= 400) {
+                    conn.errorStream
+                } else {
+                    conn.inputStream
+                }
+                val isReader = InputStreamReader(inStream)
+                val bReader = BufferedReader(isReader)
+
+                result = bReader.readText()
+            } catch (ex: Exception) {
+                Log.d("DeletedAcceptedMatches", "Error in doInBackground " + ex.message)
+            }
+
+            return result
+        }
+
+        override fun onPostExecute(result: String) {
+            super.onPostExecute(result)
+
+            if (result == "") {
+                Log.d("Deleted Match", "EMPTY")
+            } else {
+                Log.d("Deleted Match", result)
+            }
+        }
+    }
+
+override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_my_profile, menu)
         return true
     }
@@ -171,5 +327,11 @@ class MatchListActivity : AppCompatActivity() {
             missingPerms.toArray(requested)
             ActivityCompat.requestPermissions(this, requested, 0)
         }
+    }
+
+    override fun onBackPressed() {
+
+        var intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 }

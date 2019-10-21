@@ -86,8 +86,74 @@ class MatchProfileActivity : AppCompatActivity() {
         }else{
             match_gender.text = "Female"
         }
+
+        acceptMatchButton.setOnClickListener {
+
+            //Globals.currentAcceptedUsers.add(Globals.otherUser1!!)
+
+            //TODO set put request to API
+
+            var task = PutAcceptedMatchesAsyncTask()
+            task.userId1 = Globals.currentUser!!.id
+            task.userId2 = Globals.otherUser1!!.id
+            task.execute();
+
+            var task2 = PutAcceptedMatchesAsyncTask()
+            task2.userId2 = Globals.currentUser!!.id
+            task2.userId1 = Globals.otherUser1!!.id
+            task2.execute();
+        }
        // linlayout.addView(matchName)
 
+    }
+
+    class PutAcceptedMatchesAsyncTask : AsyncTask<String, String, String>() {
+        var userId1: Int = 1
+        var userId2: Int = 2
+
+        override fun doInBackground(vararg p0: String?): String {
+            var result = ""
+
+            try {
+
+                val url = URL("https://api.spot-me.xyz/accepted-matches?user1=$userId1&user2=$userId2")
+                val conn = url.openConnection() as HttpsURLConnection
+
+
+                conn.requestMethod = "PUT"
+                conn.doOutput = true
+                conn.setRequestProperty("Content-Type", "application/json; utf-8")
+                conn.setRequestProperty("Accept", "application/json")
+                conn.connect()
+
+                val responseCode: Int = conn.responseCode
+                Log.d("PutAcceptedMatches", "responseCode - $responseCode")
+
+                val inStream = if (responseCode >= 400) {
+                    conn.errorStream
+                } else {
+                    conn.inputStream
+                }
+                val isReader = InputStreamReader(inStream)
+                val bReader = BufferedReader(isReader)
+
+                result = bReader.readText()
+            } catch (ex: Exception) {
+                Log.d("PutAcceptedMatches", "Error in doInBackground " + ex.message)
+            }
+
+            return result
+        }
+
+        override fun onPostExecute(result: String) {
+            super.onPostExecute(result)
+
+            if (result == "") {
+                Log.d("PutAcceptedMatches Response", "EMPTY")
+            } else {
+                Log.d("PutAcceptedMatches Response", result)
+            }
+        }
     }
 
     class GetPotentialMatchesAsyncTask(private var activity: MatchProfileActivity) : AsyncTask<String, String, String>() {
@@ -187,5 +253,11 @@ class MatchProfileActivity : AppCompatActivity() {
                 //activity.displayProf()
             }
         }
+    }
+
+    override fun onBackPressed() {
+
+        var intent = Intent(this, MatchListActivity::class.java)
+        startActivity(intent)
     }
 }
