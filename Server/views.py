@@ -13,15 +13,15 @@ from . import util
 
 @app.route("/matchscore", methods=["GET"])
 def get_match_score():
-	user1Id = request.args[0];
-	user2Id = request.args[1];
+    user1Id = request.args[0];
+    user2Id = request.args[1];
 
-	user1Obj = models.User.query.filter_by(id=user1Id).one()
-	user2Obj = models.User.query.filter_by(id=user2Id).one()
+    user1Obj = models.User.query.filter_by(id=user1Id).one()
+    user2Obj = models.User.query.filter_by(id=user2Id).one()
 
-	matchScore = util.match_score(user1Obj, user2Obj)
+    matchScore = util.match_score(user1Obj, user2Obj)
 
-	return jsonify("score:" + matchScore)
+    return jsonify("score:" + matchScore)
 
 @app.route("/user", methods=["GET"])
 def user_get():
@@ -95,7 +95,7 @@ def chats_get_history():
 
     chat_list.sort(key=lambda x: x["time"])
 
-	return jsonify({"messages": chat_list})
+    return jsonify({"messages": chat_list})
 
 @app.route("/stored-chats", methods=["PUT"])
 def chats_enter_chat():
