@@ -9,20 +9,6 @@ from sqlalchemy.orm import joinedload
 def index():
     return "Hello, World!"
 
-from . import util
-
-@app.route("/matchscore", methods=["GET"])
-def get_match_score():
-	user1Id = request.args[0];
-	user2Id = request.args[1];
-
-	user1Obj = models.User.query.filter_by(id=user1Id).one()
-	user2Obj = models.User.query.filter_by(id=user2Id).one()
-
-	matchScore = util.match_score(user1Obj, user2Obj)
-
-	return jsonify("score:" + matchScore)
-
 @app.route("/user", methods=["GET"])
 def user_get():
     user = models.User.query.filter_by(id=request.args["id"]).one()
@@ -72,7 +58,13 @@ def accepted_matches_put():
 
 @app.route("/accepted-matches", methods=["DELETE"])
 def accepted_matches_remove():
-    models.AcceptedMatches.query.filter_by(user1=request.args["user1"], user2=request.args["user2"]).delete()
+    m1 = models.AcceptedMatches.query.filter_by(user1=request.args["user1"], user2=request.args["user2"]).one()
+    m2 = models.AcceptedMatches.query.filter_by(user2=request.args["user1"], user1=request.args["user2"]).one()
+
+    db.session.delete(m1)
+    db.session.delete(m2)
+    db.session.commit()
+
     return jsonify({"delete-received": True})
 
 @app.route("/stored-chats", methods=["GET"])
@@ -89,7 +81,7 @@ def chats_get_history():
 
     chat_list.sort(key=lambda x: x["time"])
 
-	return jsonify({"messages": chat_list})
+    return jsonify({"messages": chat_list})
 
 @app.route("/stored-chats", methods=["PUT"])
 def chats_enter_chat():

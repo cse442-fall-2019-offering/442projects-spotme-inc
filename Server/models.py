@@ -35,6 +35,8 @@ class AcceptedMatches(db.Model):
     # The second user of an accepted pair
     user2 = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
 
+    __table_args__ = (db.Index("idx_accepted_match", "user1", "user2", unique=True),)
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
