@@ -72,7 +72,13 @@ def accepted_matches_put():
 
 @app.route("/accepted-matches", methods=["DELETE"])
 def accepted_matches_remove():
-    models.AcceptedMatches.query.filter_by(user1=request.args["user1"], user2=request.args["user2"]).delete()
+    m1 = models.AcceptedMatches.query.filter_by(user1=request.args["user1"], user2=request.args["user2"]).one()
+    m2 = models.AcceptedMatches.query.filter_by(user2=request.args["user1"], user1=request.args["user2"]).one()
+
+    db.session.delete(m1)
+    db.session.delete(m2)
+    db.session.commit()
+
     return jsonify({"delete-received": True})
 
 @app.route("/stored-chats", methods=["GET"])
