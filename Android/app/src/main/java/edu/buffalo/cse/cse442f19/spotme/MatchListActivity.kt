@@ -33,12 +33,6 @@ class MatchListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_match_list)
-       // setSupportActionBar(toolbar)
-
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
 
         val task = GetAcceptedMatchesAsyncTask(this)
         task.userId = Globals.currentUser!!.id
@@ -60,7 +54,9 @@ class MatchListActivity : AppCompatActivity() {
 //      Check other way around now:
         for (user in Globals.acceptedUsersOneWay) {
 
-            var otherWay = GetAcceptedMatchesOtherWayAsynchTask(this)
+            Log.d("Part 1", "" + user.id)
+
+            var otherWay = GetAcceptedMatchesOtherWayAsynchTask(user, this)
 
             otherWay.otherUserId = user.id
 
@@ -266,7 +262,7 @@ class MatchListActivity : AppCompatActivity() {
         }
     }
 
-    class GetAcceptedMatchesOtherWayAsynchTask(private var matchListActivity: MatchListActivity) : AsyncTask<String, String, String>() {
+    class GetAcceptedMatchesOtherWayAsynchTask(private var otherUser: User, private var matchListActivity: MatchListActivity) : AsyncTask<String, String, String>() {
         var otherUserId: Int = 1;
 
         override fun doInBackground(vararg p0: String?): String {
@@ -303,8 +299,8 @@ class MatchListActivity : AppCompatActivity() {
 
                     if (user.id == Globals.currentUser!!.id) {
 
-                        Globals.acceptedUsersOneWay.remove(user);
-                        Globals.currentAcceptedUsers.add(user);
+                        Globals.acceptedUsersOneWay.remove(otherUser);
+                        Globals.currentAcceptedUsers.add(otherUser);
                     }
                 }
             } catch (ex: Exception) {
