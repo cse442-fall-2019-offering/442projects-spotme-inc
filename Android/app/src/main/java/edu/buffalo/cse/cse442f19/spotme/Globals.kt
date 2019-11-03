@@ -4,6 +4,7 @@ class Globals {
     companion object {
         @JvmStatic
         var currentUser: User? = null
+        var acceptedUsersOneWay = arrayListOf<User>()
         var currentAcceptedUsers = arrayListOf<User>()
         var otherUser1: User? = null
         var otherUser2: User? = null
