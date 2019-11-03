@@ -55,8 +55,23 @@ class MatchListActivity : AppCompatActivity() {
         }
     }
 
+    fun acceptedUsersPart1Complete() {
 
-    fun taskComplete() {
+//      Check other way around now:
+        for (user in Globals.acceptedUsersOneWay) {
+
+            var otherWay = GetAcceptedMatchesOtherWayAsynchTask(this)
+
+            otherWay.otherUserId = user.id
+
+            otherWay.execute()
+        }
+    }
+
+    fun acceptedUsersPart2Update() {
+
+        acceptedMatchesView.removeAllViews()
+
         for (i in Globals.currentAcceptedUsers) {
             displayUser(i)
         }
@@ -65,6 +80,16 @@ class MatchListActivity : AppCompatActivity() {
         potentialTask.userId = Globals.currentUser!!.id
         potentialTask.execute()
     }
+
+//    fun taskComplete() {
+//        for (i in Globals.currentAcceptedUsers) {
+//            displayUser(i)
+//        }
+//
+//        val potentialTask = GetPotentialMatchesAsyncTask(this)
+//        potentialTask.userId = Globals.currentUser!!.id
+//        potentialTask.execute()
+//    }
 
     fun clearPotentialMatches() {
 
@@ -241,6 +266,61 @@ class MatchListActivity : AppCompatActivity() {
         }
     }
 
+    class GetAcceptedMatchesOtherWayAsynchTask(private var matchListActivity: MatchListActivity) : AsyncTask<String, String, String>() {
+        var otherUserId: Int = 1;
+
+        override fun doInBackground(vararg p0: String?): String {
+            var result = ""
+
+            try {
+
+                val url = URL("https://api.spot-me.xyz/accepted-matches?id=$otherUserId")
+                val conn = url.openConnection() as HttpsURLConnection
+
+                conn.requestMethod = "GET"
+                conn.connect()
+
+                val responseCode: Int = conn.responseCode
+                Log.d("GetAcceptedMatches", "responseCode - $responseCode")
+
+                val inStream = if (responseCode >= 400) {
+                    conn.errorStream
+                } else {
+                    conn.inputStream
+                }
+                val isReader = InputStreamReader(inStream)
+                val bReader = BufferedReader(isReader)
+
+                result = bReader.readText()
+
+                var obj: JSONObject = JSONObject(result)
+                var array: JSONArray = obj.getJSONArray("matches")
+
+                for (i in 0 until array.length()) {
+
+                    var userObj: JSONObject = array[i] as JSONObject;
+                    var user = User.fromJson(userObj)
+
+                    if (user.id == Globals.currentUser!!.id) {
+
+                        Globals.acceptedUsersOneWay.remove(user);
+                        Globals.currentAcceptedUsers.add(user);
+                    }
+                }
+            } catch (ex: Exception) {
+                Log.d("GetAcceptedMatchesOtherWay", "Error in doInBackground " + ex.message)
+            }
+
+            return result;
+        }
+
+        override fun onPostExecute(result: String) {
+            super.onPostExecute(result)
+
+            matchListActivity.acceptedUsersPart2Update()//taskComplete()
+        }
+    }
+
     // Getting the accepted matches list
     class GetAcceptedMatchesAsyncTask(private var matchListActivity: MatchListActivity) : AsyncTask<String, String, String>() {
         var userId: Int = 1
@@ -273,12 +353,14 @@ class MatchListActivity : AppCompatActivity() {
                 var array: JSONArray = obj.getJSONArray("matches")
 
                 Globals.currentAcceptedUsers.clear()
-
+                Globals.acceptedUsersOneWay.clear();
                 for (i in 0 until array.length()) {
 
-                    var userObj: JSONObject = array[i] as JSONObject;
+
+                    var userObj: JSONObject = array[i] as JSONObject
                     var user = User.fromJson(userObj)
-                    Globals.currentAcceptedUsers.add(user);
+//                    Globals.currentAcceptedUsers.add(user);
+                    Globals.acceptedUsersOneWay.add(user)
                 }
 
             } catch (ex: Exception) {
@@ -293,7 +375,7 @@ class MatchListActivity : AppCompatActivity() {
         override fun onPostExecute(result: String) {
             super.onPostExecute(result)
 
-            matchListActivity.taskComplete()
+            matchListActivity.acceptedUsersPart1Complete()//taskComplete()
         }
     }
 
@@ -309,7 +391,6 @@ class MatchListActivity : AppCompatActivity() {
 
                 val url = URL("https://api.spot-me.xyz/accepted-matches?user1=$userId1&user2=$userId2")
                 val conn = url.openConnection() as HttpsURLConnection
-
 
                 conn.requestMethod = "DELETE"
                 conn.doOutput = true
