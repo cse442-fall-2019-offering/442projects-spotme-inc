@@ -95,6 +95,8 @@ class MatchProfileActivity : AppCompatActivity() {
             task.userId2 = Globals.otherUser1!!.id
             task.execute();
 
+            var intent = Intent(this, MatchListActivity::class.java)
+            startActivity(intent)
 //            Let the API handle it.
 //            var task2 = PutAcceptedMatchesAsyncTask()
 //            task2.userId2 = Globals.currentUser!!.id
