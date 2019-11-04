@@ -1,2 +1,2 @@
 #!/bin/sh
-FLASK_APP=. flask "$@"
+FLASK_APP=. pipenv run flask "$@"
