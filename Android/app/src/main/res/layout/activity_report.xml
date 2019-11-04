@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ReportActivity">
 
+    <MultiAutoCompleteTextView
+        android:id="@+id/reportData"
+        android:layout_width="231dp"
+        android:layout_height="153dp"
+        android:text="Please describe reason for reporting"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4" />
+
     <TextView
         android:id="@+id/Report_title"
         android:layout_width="291dp"
@@ -24,12 +36,10 @@
         android:layout_height="72dp"
         android:text="@string/Title_report2"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/Report_description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.368"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Report_title"
-        app:layout_constraintVertical_bias="0.484" />
+        app:layout_constraintTop_toBottomOf="@+id/Report_title" />
 
     <Button
         android:id="@+id/Submit_button"
@@ -39,21 +49,9 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.465"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Report_title"
-        app:layout_constraintVertical_bias="0.935" />
+        app:layout_constraintVertical_bias="0.67" />
 
-    <TextView
-        android:id="@+id/Report_description"
-        android:layout_width="332dp"
-        android:layout_height="316dp"
-        android:background="@color/colorTextBox"
-        android:hint="@string/Report_description"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/Submit_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Report_title"
-        app:layout_constraintVertical_bias="0.915" />
 </androidx.constraintlayout.widget.ConstraintLayout>
