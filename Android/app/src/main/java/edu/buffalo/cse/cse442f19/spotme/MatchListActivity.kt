@@ -51,16 +51,24 @@ class MatchListActivity : AppCompatActivity() {
 
     fun acceptedUsersPart1Complete() {
 
+        Log.d("PART 1", "COMPLETE")
+        Log.d("Accepted one way amt", "" + Globals.acceptedUsersOneWay.size)
+
+        if (Globals.acceptedUsersOneWay.size == 0) {
+            acceptedUsersPart2Update()
+        } else {
+
 //      Check other way around now:
-        for (user in Globals.acceptedUsersOneWay) {
+            for (user in Globals.acceptedUsersOneWay) {
 
-            Log.d("Part 1", "" + user.id)
+                Log.d("Part 1", "" + user.id)
 
-            var otherWay = GetAcceptedMatchesOtherWayAsynchTask(user, this)
+                var otherWay = GetAcceptedMatchesOtherWayAsynchTask(user, this)
 
-            otherWay.otherUserId = user.id
+                otherWay.otherUserId = user.id
 
-            otherWay.execute()
+                otherWay.execute()
+            }
         }
     }
 
@@ -95,14 +103,26 @@ class MatchListActivity : AppCompatActivity() {
 //  Display Potential Match
     fun addPotentialMatch(user: User) {
 
+        for (u: User in Globals.acceptedUsersOneWay) {
+
+//          Already accepted this user.
+            if (u.id == user.id) {
+                Log.d("ABC", "Already accepted one way " + u.id)
+                return;
+            }
+        }
+
         for (u: User in Globals.currentAcceptedUsers) {
 
 //          Already accepted this user.
             if (u.id == user.id) {
 
+                Log.d("ABC", "Already accepted " + u.id)
                 return;
             }
         }
+
+        Log.d("ABC", "Adding potential " + user.id)
         var profileButton: ImageButton = ImageButton(this)
 
         profileButton.setImageResource(R.drawable.match_avatar)
@@ -221,8 +241,10 @@ class MatchListActivity : AppCompatActivity() {
 
                 var matchArray: JSONArray = responseObj.getJSONArray("matches")
                 Log.d("Match array size", ""+matchArray.length())
+
                 activity.clearPotentialMatches()
 
+                Log.d("MATCH ARRAY SIZE", ""+ matchArray.length())
                 for (i in 0 until matchArray.length()) {
 
                     var userJsonObj: JSONObject = matchArray[i] as JSONObject
