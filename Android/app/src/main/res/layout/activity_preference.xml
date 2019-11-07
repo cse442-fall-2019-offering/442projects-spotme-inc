@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/linlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -14,15 +15,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:labelFor="@id/prefName"
             android:text="@string/my_name" />
-
-        <EditText
-            android:id="@+id/prefName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName" />
 
         <TextView
             android:layout_width="match_parent"
@@ -65,12 +58,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:labelFor="@id/prefPartnerLevel"
-            android:text="@string/prefered_level" />
+            android:text="@string/preferred_level" />
 
         <Spinner
             android:id="@+id/prefPartnerLevel"
             android:layout_width="271dp"
             android:layout_height="28dp"
-            android:entries="@array/select_level" />
+            android:entries="@array/select_partner_level" />
     </LinearLayout>
 </ScrollView>

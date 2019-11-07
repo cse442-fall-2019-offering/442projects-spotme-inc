@@ -4,6 +4,7 @@ from flask import request, jsonify
 from .app import app, db
 from . import models, util
 from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.exc import NoResultFound
 
 @app.route("/")
 def index():
@@ -42,27 +43,30 @@ def accepted_matches_get():
 
 @app.route("/accepted-matches", methods=["PUT"])
 def accepted_matches_put():
-    new_match1 = models.AcceptedMatches()
-    new_match1.user1 = request.args["user1"]
-    new_match1.user2 = request.args["user2"]
+    new_match = models.AcceptedMatches()
+    new_match.user1 = request.args["user1"]
+    new_match.user2 = request.args["user2"]
 
-    new_match2 = models.AcceptedMatches()
-    new_match2.user1 = request.args["user2"]
-    new_match2.user2 = request.args["user1"]
-
-    db.session.add(new_match1)
-    db.session.add(new_match2)
+    db.session.add(new_match)
     db.session.commit()
 
     return jsonify({"put-received": True})
 
 @app.route("/accepted-matches", methods=["DELETE"])
 def accepted_matches_remove():
-    m1 = models.AcceptedMatches.query.filter_by(user1=request.args["user1"], user2=request.args["user2"]).one()
-    m2 = models.AcceptedMatches.query.filter_by(user2=request.args["user1"], user1=request.args["user2"]).one()
+    matches = []
+    try:
+        matches.append(models.AcceptedMatches.query.filter_by(user1=request.args["user1"], user2=request.args["user2"]).one())
+    except NoResultFound:
+        pass
 
-    db.session.delete(m1)
-    db.session.delete(m2)
+    try:
+        matches.append(models.AcceptedMatches.query.filter_by(user2=request.args["user1"], user1=request.args["user2"]).one())
+    except NoResultFound:
+        pass
+
+    for match in matches:
+        db.session.delete(match)
     db.session.commit()
 
     return jsonify({"delete-received": True})
