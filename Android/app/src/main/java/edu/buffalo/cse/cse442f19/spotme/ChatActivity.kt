@@ -81,16 +81,7 @@ class ChatActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /*var handler = Handler();
-
-        val runnableCode = object : Runnable {
-            val task = LoadHistoryAsyncTask(this)
-            task.execute()
-            true
-        };
-
-        handler.post(runnableCode);*/
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         return when (item.itemId) {
             R.id.refresh -> {
@@ -100,7 +91,7 @@ class ChatActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
+    }*/
 
 //    fun load_history(){
 //
