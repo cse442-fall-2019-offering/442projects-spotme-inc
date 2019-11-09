@@ -42,8 +42,9 @@ class ChatActivity : AppCompatActivity() {
 
         val task = LoadHistoryAsyncTask(this)
         //task.userId = position + 1
-        //Log.d("Fetching on", "" + task.userId)
         task.execute()
+        //Log.d("Fetching on", "" + task.userId)
+        //Handler().postDelayed({task.execute()},5000)
 
         enterMessage.setOnEditorActionListener { _, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
@@ -58,66 +59,21 @@ class ChatActivity : AppCompatActivity() {
         sendButton.setOnClickListener {
             sendButtonClicked()
         }
+        val i = this
 
-            /*var handler = Handler()
-        handler.postDelayed(LoadHistoryAsyncTask(this), 2000)*/
-
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
-
-        /*var handler = Handler();
-
+        val handler = Handler()
         // Define the code block to be executed
         val runnableCode = object : Runnable {
             override fun run() {
-                /*// Do something here on the main thread
-                //Log.d("Handlers", "Called on main thread")
                 // Repeat this the same runnable code block again another 2 seconds
                 // 'this' is referencing the Runnable object
-
-                //val task = LoadHistoryAsyncTask(this)
-                //task.userId = position + 1
-                //Log.d("Fetching on", "" + task.userId)
-                task.execute()
-
-                handler.postDelayed(this, 5000)*/
-                var result = ""
-
-                val userId: Int = Globals.currentUser!!.id
-
-                val intent = activity.intent
-
-                val matchID: Int = intent.getIntExtra("match_id", 1) //user2
-                try {
-
-                    val url = URL("https://api.spot-me.xyz/stored-chats?id=$userId&other_id=$matchID")
-                    val conn = url.openConnection() as HttpsURLConnection
-
-                    conn.requestMethod = "GET"
-                    conn.connect()
-
-                    val responseCode: Int = conn.responseCode
-                    Log.d("GetUser", "responseCode - $responseCode")
-
-                    val inStream = if (responseCode >= 400) {
-                        conn.errorStream
-                    } else {
-                        conn.inputStream
-                    }
-                    val isReader = InputStreamReader(inStream)
-                    val bReader = BufferedReader(isReader)
-
-                    result = bReader.readText()
-
-
-                } catch (ex: Exception) {
-                    Log.d("GetUser", "Error in doInBackground " + ex.message)
-                }
+                val x = LoadHistoryAsyncTask(i)
+                x.execute()
+                handler.postDelayed(this, 2000)
             }
-        };
-        handler.post(runnableCode);*/
+        }
+        // Start the initial runnable task by posting through the handler
+        handler.post(runnableCode)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -126,6 +82,16 @@ class ChatActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        /*var handler = Handler();
+
+        val runnableCode = object : Runnable {
+            val task = LoadHistoryAsyncTask(this)
+            task.execute()
+            true
+        };
+
+        handler.post(runnableCode);*/
+
         return when (item.itemId) {
             R.id.refresh -> {
                 val task = LoadHistoryAsyncTask(this)
@@ -255,7 +221,10 @@ class ChatActivity : AppCompatActivity() {
         timeStamp.textAlignment = TEXT_ALIGNMENT_TEXT_END
 
         //Clear enter message text
-        enterMessage.setText("")
+        //enterMessage.setText("")
+        //if (enterMessage.length() > 0) {
+        //    enterMessage.getText().clear();
+        //}
 
         //Add chat to the main layout
         chatLayout.addView(chatBubble)
@@ -295,7 +264,10 @@ class ChatActivity : AppCompatActivity() {
         timeStamp.textAlignment = TEXT_ALIGNMENT_TEXT_END
 
         //Clear enter message text
-        enterMessage.setText("")
+        //enterMessage.setText("")
+        if (enterMessage.length() > 0) {
+            enterMessage.getText().clear();
+        }
 
         //Add chat to the main layout
         chatLayout.addView(chatBubble)
@@ -335,7 +307,10 @@ class ChatActivity : AppCompatActivity() {
         timeStamp.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
 
         //Clear enter message text
-        enterMessage.setText("")
+        //enterMessage.setText("")
+        //if (enterMessage.length() > 0) {
+        //    enterMessage.getText().clear();
+        //}
 
         //Add chat to the main layout
         chatLayout.addView(profile)
@@ -408,32 +383,14 @@ class ChatActivity : AppCompatActivity() {
 
     class LoadHistoryAsyncTask(private var activity: ChatActivity) : AsyncTask<String, String, String>() {
 
-        /*//var temp_user: Int = 2
-
-        val handler = Handler()
-
-        // Define the code block to be executed
-        val runnableCode = object : Runnable {
-            override fun run() {
-                /*// Do something here on the main thread
-                //Log.d("Handlers", "Called on main thread")
-                // Repeat this the same runnable code block again another 2 seconds
-                // 'this' is referencing the Runnable object
-
-                //val task = LoadHistoryAsyncTask(this)
-                //task.userId = position + 1
-                //Log.d("Fetching on", "" + task.userId)
-                task.execute()
-
-                handler.postDelayed(this, 5000)*/
-
-                doInBackground()
-
-                handler.postDelayed(this, 5000)
-            }
-        }*/
-
         override fun doInBackground(vararg p0: String?): String {
+
+            /*val handler = Handler()
+            val runnableCode = object : Runnable {
+                override fun run() {
+                    handler.postDelayed(this, 5000)
+                }
+            }*/
 
             var result = ""
 
@@ -471,6 +428,7 @@ class ChatActivity : AppCompatActivity() {
         }
 
         override fun onPostExecute(result: String) {
+
             super.onPostExecute(result)
             //handler.post(runnableCode)
 
