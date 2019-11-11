@@ -252,32 +252,6 @@ class MatchListActivity : AppCompatActivity() {
                     Log.d("USER OBJ", userObj.toString())
                     activity.addPotentialMatch(userObj)
                 }
-                /*var user1Json = matchArray[0] as JSONObject
-                Globals.otherUser1 = User.fromJson(user1Json)
-
-                var user2Json = matchArray[1] as JSONObject
-                Globals.otherUser2 = User.fromJson(user2Json)
-
-                var user3Json = matchArray[2] as JSONObject
-                Globals.otherUser3 = User.fromJson(user3Json)
-
-                var user4Json = matchArray[3] as JSONObject
-                Globals.otherUser4 = User.fromJson(user4Json)
-
-                var user5Json = matchArray[4] as JSONObject
-                Globals.otherUser5 = User.fromJson(user5Json)
-
-                var user6Json = matchArray[5] as JSONObject
-                Globals.otherUser6 = User.fromJson(user6Json)
-
-                var user7Json = matchArray[6] as JSONObject
-                Globals.otherUser7 = User.fromJson(user7Json)
-
-                var user8Json = matchArray[7] as JSONObject
-                Globals.otherUser8 = User.fromJson(user8Json)
-
-                var user9Json = matchArray[8] as JSONObject
-                Globals.otherUser9 = User.fromJson(user9Json)*/
 
                 //activity.displayProf()
             }
@@ -396,6 +370,66 @@ class MatchListActivity : AppCompatActivity() {
             matchListActivity.acceptedUsersPart1Complete()//taskComplete()
         }
     }
+
+    class BothWaysAsyncTask(private var otherUser: User, private var matchListActivity: MatchListActivity) : AsyncTask<String, String, String>() {
+        var otherUserId: Int = 1;
+
+        override fun doInBackground(vararg p0: String?): String {
+            var result = ""
+            //var result1= ""
+            //var result2 = ""
+
+            try {
+
+                val url = URL("https://api.spot-me.xyz/accepted-matches?id=$otherUserId")
+                val conn = url.openConnection() as HttpsURLConnection
+
+                conn.requestMethod = "GET"
+                conn.connect()
+
+                val responseCode: Int = conn.responseCode
+                Log.d("GetAcceptedMatches", "responseCode - $responseCode")
+
+                val inStream = if (responseCode >= 400) {
+                    conn.errorStream
+                } else {
+                    conn.inputStream
+                }
+                val isReader = InputStreamReader(inStream)
+                val bReader = BufferedReader(isReader)
+
+                result = bReader.readText()
+
+                //var obj = JSONObject(result)
+                var array: JSONArray = (JSONObject(result)).getJSONArray("matches")
+                var x = 0
+
+                while (x < (array.length()-1)) {
+
+                    var userObj: JSONObject = array[x] as JSONObject;
+                    var user = User.fromJson(userObj)
+
+                    if (user.id == Globals.currentUser!!.id) {
+
+                        Globals.acceptedUsersOneWay.remove(otherUser);
+                        Globals.currentAcceptedUsers.add(otherUser);
+                        x = array.length()
+                    }
+                }
+            } catch (ex: Exception) {
+                Log.d("GetAcceptedMatchesOtherWay", "Error in doInBackground " + ex.message)
+            }
+
+            return result;
+        }
+
+        override fun onPostExecute(result: String) {
+            super.onPostExecute(result)
+
+            matchListActivity.acceptedUsersPart2Update()//taskComplete()
+        }
+    }
+
 
     // Deleting Accepted matches
     class DeleteAcceptedMatchesAsyncTask : AsyncTask<String, String, String>() {
