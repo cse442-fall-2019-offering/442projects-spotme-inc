@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import javax.net.ssl.HttpsURLConnection
+import java.net.HttpURLConnection
 
 
 class LoginActivity : AppCompatActivity() {
@@ -52,8 +52,8 @@ class LoginActivity : AppCompatActivity() {
 
         fun testFun (x : Int){
             try {
-                val url = URL("https://api.spot-me.xyz/user?id=$x")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/user?id=$x")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()
@@ -82,8 +82,8 @@ class LoginActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/user?id=$userId")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/user?id=$userId")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()

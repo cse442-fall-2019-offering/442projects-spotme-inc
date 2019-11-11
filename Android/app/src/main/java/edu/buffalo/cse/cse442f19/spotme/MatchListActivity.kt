@@ -24,7 +24,6 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 class MatchListActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -201,8 +200,8 @@ class MatchListActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/matches?id=$userId")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/matches?id=$userId")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()
@@ -292,8 +291,8 @@ class MatchListActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/accepted-matches?id=$otherUserId")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/accepted-matches?id=$otherUserId")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()
@@ -348,8 +347,8 @@ class MatchListActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/accepted-matches?id=$userId")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/accepted-matches?id=$userId")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()
@@ -407,8 +406,8 @@ class MatchListActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/accepted-matches?user1=$userId1&user2=$userId2")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/accepted-matches?user1=$userId1&user2=$userId2")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "DELETE"
                 conn.doOutput = true

@@ -6,8 +6,8 @@ import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
+import java.net.HttpURLConnection
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 class UpdateUserAsyncTask : AsyncTask<String, String, String>() {
     override fun doInBackground(vararg p0: String?): String {
@@ -15,8 +15,8 @@ class UpdateUserAsyncTask : AsyncTask<String, String, String>() {
 
         val userId = Globals.currentUser?.id
         try {
-            val url = URL("https://api.spot-me.xyz/user?id=$userId")
-            val conn = url.openConnection() as HttpsURLConnection
+            val url = URL("${Globals.ENDPOINT_BASE}/user?id=$userId")
+            val conn = url.openConnection() as HttpURLConnection
 
             conn.requestMethod = "POST"
             conn.doOutput = true

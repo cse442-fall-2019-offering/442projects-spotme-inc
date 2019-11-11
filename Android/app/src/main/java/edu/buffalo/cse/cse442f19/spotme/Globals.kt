@@ -17,6 +17,7 @@ class Globals {
         var otherUser9: User? = null
         var oustring: String = ""
         var selectedMatch: Int? = null
+        const val ENDPOINT_BASE = "https://api.spot-me.xyz"
     }
 }
 
