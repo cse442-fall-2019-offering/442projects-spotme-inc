@@ -376,8 +376,50 @@ class MatchListActivity : AppCompatActivity() {
 
         override fun doInBackground(vararg p0: String?): String {
             var result = ""
+            var array1 = JSONArray()
+            var array2 = JSONArray()
             //var result1= ""
             //var result2 = ""
+
+            /*try {
+
+                val url = URL("https://api.spot-me.xyz/accepted-matches?id=$userId")
+                val conn = url.openConnection() as HttpsURLConnection
+
+                conn.requestMethod = "GET"
+                conn.connect()
+
+                val responseCode: Int = conn.responseCode
+                Log.d("GetAcceptedMatches", "responseCode - $responseCode")
+
+                val inStream = if (responseCode >= 400) {
+                    conn.errorStream
+                } else {
+                    conn.inputStream
+                }
+                val isReader = InputStreamReader(inStream)
+                val bReader = BufferedReader(isReader)
+
+                result = bReader.readText()
+
+                var obj: JSONObject = JSONObject(result)
+                var array1 = obj.getJSONArray("matches")
+
+                Globals.currentAcceptedUsers.clear()
+                Globals.acceptedUsersOneWay.clear();
+                /*for (i in 0 until array.length()) {
+
+
+                    var userObj: JSONObject = array[i] as JSONObject
+                    var user = User.fromJson(userObj)
+//                    Globals.currentAcceptedUsers.add(user);
+                    Globals.acceptedUsersOneWay.add(user)
+                }*/
+
+            } catch (ex: Exception) {
+                Log.d("GetAcceptedMatches", "Error in doInBackground " + ex.message)
+
+            }*/
 
             try {
 
@@ -401,10 +443,11 @@ class MatchListActivity : AppCompatActivity() {
                 result = bReader.readText()
 
                 //var obj = JSONObject(result)
-                var array: JSONArray = (JSONObject(result)).getJSONArray("matches")
-                var x = 0
+                array2 = (JSONObject(result)).getJSONArray("matches")
 
-                while (x < (array.length()-1)) {
+
+
+                /*while (x < (array.length()-1)) {
 
                     var userObj: JSONObject = array[x] as JSONObject;
                     var user = User.fromJson(userObj)
@@ -415,9 +458,20 @@ class MatchListActivity : AppCompatActivity() {
                         Globals.currentAcceptedUsers.add(otherUser);
                         x = array.length()
                     }
-                }
+                }*/
             } catch (ex: Exception) {
                 Log.d("GetAcceptedMatchesOtherWay", "Error in doInBackground " + ex.message)
+            }
+
+            for (i in 0 until array1.length()) {
+
+
+
+                /*var userObj: JSONObject = array[i] as JSONObject
+                var user = User.fromJson(userObj)
+//                    Globals.currentAcceptedUsers.add(user);
+                Globals.acceptedUsersOneWay.add(user)*/
+
             }
 
             return result;
