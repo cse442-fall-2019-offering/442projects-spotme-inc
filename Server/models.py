@@ -31,7 +31,7 @@ class AcceptedMatches(db.Model):
 
     # The first user of an accepted pair
     user1 = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
-    
+
     # The second user of an accepted pair
     user2 = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
 
@@ -67,7 +67,7 @@ class User(db.Model):
     # User's last latitude and logitude
     lat = db.Column(db.Float(), nullable=True)
     lon = db.Column(db.Float(), nullable=True)
-    
+
     # User's distance preference
     radius = db.Column(db.Integer(), nullable=True)
 
@@ -89,4 +89,24 @@ class User(db.Model):
             "lat": self.lat,
             "lon": self.lon,
             "radius": self.radius,
+        }
+
+
+class ReportInformation(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+
+    # User Reporting
+    sender = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
+
+    # Report message sent from User
+    message = db.Column(db.Text(), nullable=False)
+
+    # Tine stamp message was sent at
+    time = db.Column(db.DateTime(), server_default=func.now(), nullable=False)
+
+    def to_dict(self):
+        return {
+            "sender": self.sender,
+            "message": self.message,
+            "time": self.time.strftime("%Y-%m-%dT%H:%M:%S.%f%z"),
         }

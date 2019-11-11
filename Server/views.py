@@ -116,3 +116,15 @@ def match_list():
         output.append(m[1].to_dict())
 
     return jsonify({"matches": output})
+
+# Report Information Stored
+@app.route("/stored-reports", methods=["PUT"])
+def report_information_entered():
+    report_message = models.ReportInformation()
+    report_message.sender = request.args["user1"]
+    report_message.message = request.args["message"]
+
+    db.session.add(report_message)
+    db.session.commit()
+
+    return jsonify({"put-received": True})
