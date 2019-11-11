@@ -20,7 +20,13 @@ def match_score(user1, user2):
     if user2.partner_level is not None and user1.level is not None and user2.partner_level != 3:
         cost += FITNESS_FACTOR * (user2.partner_level - user1.level)**2
 
-    return 1 / cost
+    fitness_level_desired = false
+
+    if user1.partner_level is not None and user2.level is not None:
+        fitness_level_desired = user1.partner_level == user2.level
+
+    score = 1 / cost
+    return score, distance, fitness_level_desired
 
 # Haversine method for finding distance of two points on a sphere.
 # Source: https://janakiev.com/blog/gps-points-distance-python/
