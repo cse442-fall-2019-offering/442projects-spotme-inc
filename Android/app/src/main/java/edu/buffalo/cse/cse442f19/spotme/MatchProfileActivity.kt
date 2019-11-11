@@ -70,7 +70,7 @@ class MatchProfileActivity : AppCompatActivity() {
 
     fun addUser(u: JSONObject) {
 
-        Globals.otherUser1 = User.fromJson(u)
+        Globals.otherUser1 = User.ScoredUser.fromJson(u)
 
         var dob  = Date(otherUser1!!.dob)
         var age = getAge(dob)
@@ -87,6 +87,19 @@ class MatchProfileActivity : AppCompatActivity() {
         }else{
             match_gender.text = "Female"
         }
+
+
+        var factors: String = "";
+
+        if (Globals.otherUser1!!.fitness_level_desired) {
+
+            factors += Globals.otherUser1!!.name + " matches your desired fitness level!\n"
+        }
+
+        factors += "Distance: " + Globals.otherUser1!!.distance + "\n"
+        factors += "Match Score: " + Globals.otherUser1!!.match_score
+
+        match_factors.text = factors
 
         acceptMatchButton.setOnClickListener {
 

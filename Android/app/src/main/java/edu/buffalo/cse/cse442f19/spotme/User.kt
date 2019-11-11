@@ -2,7 +2,7 @@ package edu.buffalo.cse.cse442f19.spotme
 
 import org.json.JSONObject
 
-class User {
+open class User {
     var dob: String = ""
     var gender: Int = 0
     var id: Int = 1
@@ -71,5 +71,37 @@ class User {
         o.put("weight", this.weight)
 
         return o
+    }
+
+    class ScoredUser : User() {
+
+        var match_score: Int = 0;
+        var distance: Int = 0;
+        var fitness_level_desired: Boolean = false;
+
+        companion object {
+            @JvmStatic
+            fun fromJson(jsonObject: JSONObject): ScoredUser {
+                val u = ScoredUser()
+
+                u.id = jsonObject.optInt("id")
+                u.username = jsonObject.optString("username")
+                u.name = jsonObject.optString("name")
+                u.dob = jsonObject.getString("dob")
+                u.gender = jsonObject.optInt("gender")
+                u.lat = jsonObject.optDouble("lat")
+                u.lon = jsonObject.optDouble("lon")
+                u.level = jsonObject.optInt("level")
+                u.partner_gender = jsonObject.optInt("partner_gender")
+                u.partner_level = jsonObject.optInt("partner_level")
+                u.radius = jsonObject.optInt("radius")
+                u.weight = jsonObject.optDouble("weight")
+                u.match_score = jsonObject.optInt("score")
+                u.distance = jsonObject.optInt("distance")
+                u.fitness_level_desired = jsonObject.optBoolean("fitness_level_desired")
+
+                return u
+            }
+        }
     }
 }
