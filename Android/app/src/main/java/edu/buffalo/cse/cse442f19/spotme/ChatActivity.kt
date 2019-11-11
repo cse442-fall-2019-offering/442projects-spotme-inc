@@ -66,7 +66,6 @@ class ChatActivity : AppCompatActivity() {
         val runnableCode = object : Runnable {
             override fun run() {
                 // Repeat this the same runnable code block again another 2 seconds
-                // 'this' is referencing the Runnable object
                 val x = LoadHistoryAsyncTask(i)
                 x.execute()
                 handler.postDelayed(this, 2000)
@@ -375,13 +374,6 @@ class ChatActivity : AppCompatActivity() {
     class LoadHistoryAsyncTask(private var activity: ChatActivity) : AsyncTask<String, String, String>() {
 
         override fun doInBackground(vararg p0: String?): String {
-
-            /*val handler = Handler()
-            val runnableCode = object : Runnable {
-                override fun run() {
-                    handler.postDelayed(this, 5000)
-                }
-            }*/
 
             var result = ""
 
