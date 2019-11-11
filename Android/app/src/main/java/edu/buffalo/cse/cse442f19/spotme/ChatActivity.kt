@@ -1,5 +1,6 @@
 package edu.buffalo.cse.cse442f19.spotme
-import android.content.Intent
+
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.TypedValue
 import android.widget.TextView
@@ -270,10 +271,22 @@ class ChatActivity : AppCompatActivity() {
 
         val profile = ImageButton(this)
 
+        var otherUser: User? = null
+        for (u in Globals.currentAcceptedUsers) {
+            if (u.id == intent.getIntExtra("match_id", 1)) {
+                otherUser = u
+            }
+        }
+
         chatBubble.text = text
         chatBubble.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24f)
 
-        profile.setBackgroundResource(R.drawable.match_avatar)
+        if (otherUser != null) {
+            val bitmap = BitmapFactory.decodeByteArray(otherUser.picture, 0, otherUser.picture.size)
+            profile.setImageBitmap(bitmap)
+        } else {
+            profile.setBackgroundResource(R.drawable.match_avatar)
+        }
 
         timeStamp.text = time.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
         timeStamp.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)

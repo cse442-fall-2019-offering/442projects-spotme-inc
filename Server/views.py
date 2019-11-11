@@ -1,4 +1,5 @@
 import datetime
+import base64
 from flask import request, jsonify
 
 from .app import app, db
@@ -24,6 +25,8 @@ def user_update():
             continue
         if k == "dob":
             v = datetime.datetime.strptime(v, "%Y-%m-%d")
+        if k == "picture":
+            v = base64.b64decode(v)
         update_dict[k] = v
     user = models.User.query.filter_by(id=user_json["id"]) \
             .update(update_dict)

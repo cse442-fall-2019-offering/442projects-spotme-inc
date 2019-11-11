@@ -3,6 +3,7 @@ package edu.buffalo.cse.cse442f19.spotme
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
@@ -117,14 +118,15 @@ class MatchListActivity : AppCompatActivity() {
             if (u.id == user.id) {
 
                 Log.d("ABC", "Already accepted " + u.id)
-                return;
+                return
             }
         }
 
         Log.d("ABC", "Adding potential " + user.id)
         var profileButton: ImageButton = ImageButton(this)
 
-        profileButton.setImageResource(R.drawable.match_avatar)
+        val bitmap = BitmapFactory.decodeByteArray(user.picture, 0, user.picture.size)
+        profileButton.setImageBitmap(bitmap)
         profileButton.scaleType = ImageView.ScaleType.CENTER_INSIDE
 
         profileButton.setOnClickListener {
@@ -134,8 +136,8 @@ class MatchListActivity : AppCompatActivity() {
         }
 
         potentialMatchLinLayout.addView(profileButton)
-        profileButton.layoutParams.width = 250;
-        profileButton.layoutParams.height = 250;
+        profileButton.layoutParams.width = 250
+        profileButton.layoutParams.height = 250
     }
 
 //  Display Accepted Match
@@ -154,7 +156,8 @@ class MatchListActivity : AppCompatActivity() {
 
         acceptedMatchImage.layoutParams.width = 250
         acceptedMatchImage.layoutParams.height = 250
-        acceptedMatchImage.setImageResource(R.drawable.match_avatar)
+        val bitmap = BitmapFactory.decodeByteArray(user.picture, 0, user.picture.size)
+        acceptedMatchImage.setImageBitmap(bitmap)
         acceptedMatchImage.scaleType = ImageView.ScaleType.CENTER_INSIDE
         acceptedMatchImage.setOnClickListener {
 
@@ -453,7 +456,7 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.MyProfileB -> {
-                startActivity(Intent(this, MyProfile::class.java))
+                startActivity(Intent(this, MyProfileActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -502,11 +505,5 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
             missingPerms.toArray(requested)
             ActivityCompat.requestPermissions(this, requested, 0)
         }
-    }
-
-    override fun onBackPressed() {
-
-        var intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
     }
 }

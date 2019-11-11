@@ -9,10 +9,8 @@ import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_preference.*
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.graphics.Rect
 import android.util.TypedValue
-import androidx.core.content.ContextCompat.getSystemService
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 
@@ -93,12 +91,6 @@ class PreferenceActivity() : AppCompatActivity() {
         user.level = prefLevel.selectedItemPosition
 
         UpdateUserAsyncTask().execute()
-    }
-
-    override fun onBackPressed() {
-
-        var intent = Intent(this, MyProfile::class.java)
-        startActivity(intent)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
