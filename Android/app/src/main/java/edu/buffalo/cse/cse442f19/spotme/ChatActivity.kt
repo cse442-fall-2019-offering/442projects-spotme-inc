@@ -1,6 +1,7 @@
 package edu.buffalo.cse.cse442f19.spotme
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.TypedValue
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -41,8 +42,9 @@ class ChatActivity : AppCompatActivity() {
 
         val task = LoadHistoryAsyncTask(this)
         //task.userId = position + 1
-        //Log.d("Fetching on", "" + task.userId)
         task.execute()
+        //Log.d("Fetching on", "" + task.userId)
+        //Handler().postDelayed({task.execute()},5000)
 
         enterMessage.setOnEditorActionListener { _, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
@@ -57,11 +59,21 @@ class ChatActivity : AppCompatActivity() {
         sendButton.setOnClickListener {
             sendButtonClicked()
         }
+        val i = this
 
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
+        val handler = Handler()
+        // Define the code block to be executed
+        val runnableCode = object : Runnable {
+            override fun run() {
+                // Repeat this the same runnable code block again another 2 seconds
+                // 'this' is referencing the Runnable object
+                val x = LoadHistoryAsyncTask(i)
+                x.execute()
+                handler.postDelayed(this, 2000)
+            }
+        }
+        // Start the initial runnable task by posting through the handler
+        handler.post(runnableCode)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -69,7 +81,8 @@ class ChatActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
         return when (item.itemId) {
             R.id.refresh -> {
                 val task = LoadHistoryAsyncTask(this)
@@ -78,7 +91,7 @@ class ChatActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
+    }*/
 
 //    fun load_history(){
 //
@@ -199,7 +212,10 @@ class ChatActivity : AppCompatActivity() {
         timeStamp.textAlignment = TEXT_ALIGNMENT_TEXT_END
 
         //Clear enter message text
-        enterMessage.setText("")
+        //enterMessage.setText("")
+        //if (enterMessage.length() > 0) {
+        //    enterMessage.getText().clear();
+        //}
 
         //Add chat to the main layout
         chatLayout.addView(chatBubble)
@@ -239,7 +255,10 @@ class ChatActivity : AppCompatActivity() {
         timeStamp.textAlignment = TEXT_ALIGNMENT_TEXT_END
 
         //Clear enter message text
-        enterMessage.setText("")
+        //enterMessage.setText("")
+        if (enterMessage.length() > 0) {
+            enterMessage.getText().clear();
+        }
 
         //Add chat to the main layout
         chatLayout.addView(chatBubble)
@@ -279,7 +298,10 @@ class ChatActivity : AppCompatActivity() {
         timeStamp.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
 
         //Clear enter message text
-        enterMessage.setText("")
+        //enterMessage.setText("")
+        //if (enterMessage.length() > 0) {
+        //    enterMessage.getText().clear();
+        //}
 
         //Add chat to the main layout
         chatLayout.addView(profile)
@@ -352,9 +374,15 @@ class ChatActivity : AppCompatActivity() {
 
     class LoadHistoryAsyncTask(private var activity: ChatActivity) : AsyncTask<String, String, String>() {
 
-        //var temp_user: Int = 2
-
         override fun doInBackground(vararg p0: String?): String {
+
+            /*val handler = Handler()
+            val runnableCode = object : Runnable {
+                override fun run() {
+                    handler.postDelayed(this, 5000)
+                }
+            }*/
+
             var result = ""
 
             val userId: Int = Globals.currentUser!!.id
@@ -391,7 +419,9 @@ class ChatActivity : AppCompatActivity() {
         }
 
         override fun onPostExecute(result: String) {
+
             super.onPostExecute(result)
+            //handler.post(runnableCode)
 
             if (result == "") {
                 Log.d("Result", "EMPTY")
