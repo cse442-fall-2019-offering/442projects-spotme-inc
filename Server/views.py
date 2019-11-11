@@ -118,9 +118,9 @@ def match_list():
     matches = []
     for ou in other_users:
         score, distance, fitness_level_desired = util.match_score(user, ou)
-        ou.append("score": score)
-        ou.append("distance": distance)
-        ou.append("fitness_level_desired": fitness_level_desired)
+        ou['score'].append(score)
+        ou['distance'].append(distance)
+        ou['fitness_level_desired'].append(fitness_level_desired)
         matches.append((score, ou))
 
     matches.sort(key=lambda x: x[0], reverse=True)
