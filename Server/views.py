@@ -117,12 +117,15 @@ def match_list():
 
     matches = []
     for ou in other_users:
-        matches.append((util.match_score(user, ou), ou))
+        score, distance, fitness_level_desired = util.match_score(user, ou)
+        ouJson = ou.to_dict()
+        ouJson.update({'score': score, 'distance': distance, 'fitness_level_desired': fitness_level_desired})
+        matches.append((score, ouJson))
 
     matches.sort(key=lambda x: x[0], reverse=True)
 
     output = []
     for m in matches:
-        output.append(m[1].to_dict())
+        output.append(m[1])
 
     return jsonify({"matches": output})

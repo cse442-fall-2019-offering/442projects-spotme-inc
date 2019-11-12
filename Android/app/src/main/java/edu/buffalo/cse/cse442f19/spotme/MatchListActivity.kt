@@ -286,7 +286,7 @@ class MatchListActivity : AppCompatActivity() {
         }
     }
 
-    class GetAcceptedMatchesOtherWayAsynchTask(private var otherUser: User, private var matchListActivity: MatchListActivity) : AsyncTask<String, String, String>() {
+    class GetAcceptedMatchesOtherWayAsynchTask(private var otherUser: User.ScoredUser, private var matchListActivity: MatchListActivity) : AsyncTask<String, String, String>() {
         var otherUserId: Int = 1;
 
         override fun doInBackground(vararg p0: String?): String {
@@ -378,7 +378,7 @@ class MatchListActivity : AppCompatActivity() {
 
 
                     var userObj: JSONObject = array[i] as JSONObject
-                    var user = User.fromJson(userObj)
+                    var user = User.ScoredUser.fromJson(userObj)
 //                    Globals.currentAcceptedUsers.add(user);
                     Globals.acceptedUsersOneWay.add(user)
                 }

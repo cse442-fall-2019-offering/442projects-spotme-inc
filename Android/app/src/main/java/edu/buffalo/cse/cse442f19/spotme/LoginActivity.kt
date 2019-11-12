@@ -24,7 +24,13 @@ class LoginActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             val intent = Intent(this, MatchListActivity :: class.java)
-            startActivity(intent)
+            if (Globals.currentUser != null) {
+
+                startActivity(intent)
+            } else {
+
+                Log.d("LoginActivity", "Current user is null!")
+            }
 
         }
 

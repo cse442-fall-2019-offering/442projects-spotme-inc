@@ -50,7 +50,7 @@ class MatchProfileActivity : AppCompatActivity() {
     }
 
     fun addUser(u: JSONObject) {
-        val user = User.fromJson(u)
+        val user: User.ScoredUser = User.ScoredUser.fromJson(u)
 
         val dob  = Date(user.dob)
         val age = getAge(dob)
@@ -67,6 +67,19 @@ class MatchProfileActivity : AppCompatActivity() {
 
         val bitmap = BitmapFactory.decodeByteArray(user.picture, 0, user.picture.size)
         imageView.setImageBitmap(bitmap)
+
+
+        var factors: String = "";
+
+        if (user.fitness_level_desired) {
+
+            factors += user.name + " matches your desired fitness level!\n"
+        }
+
+        factors += "Distance: " + user.distance + "\n"
+        factors += "Match Score: " + user.match_score
+
+        match_factors.text = factors
 
         acceptMatchButton.setOnClickListener {
             val task = PutAcceptedMatchesAsyncTask()
