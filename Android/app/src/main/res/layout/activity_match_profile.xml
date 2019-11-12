@@ -68,6 +68,7 @@
 
         <TextView
             android:id="@+id/fitnessLevel"
+            style="@style/dialog_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -80,6 +81,7 @@
 
         <TextView
             android:id="@+id/match_factors"
+            style="@style/dialog_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

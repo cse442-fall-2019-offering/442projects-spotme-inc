@@ -20,7 +20,7 @@ def match_score(user1, user2):
     if user2.partner_level is not None and user1.level is not None and user2.partner_level != 3:
         cost += FITNESS_FACTOR * (user2.partner_level - user1.level)**2
 
-    fitness_level_desired = false
+    fitness_level_desired = False
 
     if user1.partner_level is not None and user2.level is not None:
         fitness_level_desired = user1.partner_level == user2.level
