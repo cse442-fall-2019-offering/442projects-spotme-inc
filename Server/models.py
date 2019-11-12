@@ -1,3 +1,5 @@
+import base64
+
 from sqlalchemy import inspect
 from sqlalchemy.sql import func
 
@@ -71,6 +73,8 @@ class User(db.Model):
     # User's distance preference
     radius = db.Column(db.Integer(), nullable=True)
 
+    picture = db.Column(db.LargeBinary(), nullable=True)
+
     accepted_matches = db.relationship("User", secondary="accepted_matches",
             primaryjoin="User.id==AcceptedMatches.user1",
             secondaryjoin="User.id==AcceptedMatches.user2")
@@ -89,4 +93,5 @@ class User(db.Model):
             "lat": self.lat,
             "lon": self.lon,
             "radius": self.radius,
+            "picture": base64.b64encode(self.picture).decode("ascii"),
         }

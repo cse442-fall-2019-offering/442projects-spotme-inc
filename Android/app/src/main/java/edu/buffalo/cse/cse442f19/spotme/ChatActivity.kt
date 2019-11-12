@@ -1,5 +1,6 @@
 package edu.buffalo.cse.cse442f19.spotme
-import android.content.Intent
+
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
 import android.util.TypedValue
@@ -17,11 +18,11 @@ import android.view.inputmethod.EditorInfo
 import android.os.AsyncTask
 import org.json.JSONObject
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 import android.util.Log
 import android.view.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.net.HttpURLConnection
 import java.net.URLEncoder
 
 class ChatActivity : AppCompatActivity() {
@@ -102,19 +103,19 @@ class ChatActivity : AppCompatActivity() {
 //
 //        //val matchID: Int = intent.getStringExtra("match_id") //user2
 //
-//        val url: URL = URL("https://api.spot-me.xyz/stored-chats?id=$userId&other_id=$temp_user")
-//        val httpsConnection: HttpsURLConnection = url.openConnection() as HttpsURLConnection
+//        val url: URL = URL("${Globals.ENDPOINT_BASE}/stored-chats?id=$userId&other_id=$temp_user")
+//        val httpConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
 //
-//        httpsConnection.requestMethod = "GET"
-//        httpsConnection.connect()
+//        httpConnection.requestMethod = "GET"
+//        httpConnection.connect()
 //
-//        val responseCode: Int = httpsConnection.responseCode
+//        val responseCode: Int = httpConnection.responseCode
 //        Log.d("GetUser", "responseCode - $responseCode")
 //
 //        val inStream = if (responseCode >= 400) {
-//            httpsConnection.errorStream
+//            httpConnection.errorStream
 //        } else {
-//            httpsConnection.inputStream
+//            httpConnection.inputStream
 //        }
 //        val isReader = InputStreamReader(inStream)
 //        val bReader = BufferedReader(isReader)
@@ -181,8 +182,8 @@ class ChatActivity : AppCompatActivity() {
 //        try
 //        {
 //
-//            val url = URL("https://api.spot-me.xyz/stored-chats?user1=$userId&user2=$temp_user&message=$mess")
-//            val httpURLConnection = url.openConnection() as HttpsURLConnection
+//            val url = URL("${Globals.ENDPOINT_BASE}/stored-chats?user1=$userId&user2=$temp_user&message=$mess")
+//            val httpURLConnection = url.openConnection() as HttpURLConnection
 //
 //            httpURLConnection.requestMethod = "PUT"
 //            httpURLConnection.connect()
@@ -288,10 +289,22 @@ class ChatActivity : AppCompatActivity() {
 
         val profile = ImageButton(this)
 
+        var otherUser: User? = null
+        for (u in Globals.currentAcceptedUsers) {
+            if (u.id == intent.getIntExtra("match_id", 1)) {
+                otherUser = u
+            }
+        }
+
         chatBubble.text = text
         chatBubble.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24f)
 
-        profile.setBackgroundResource(R.drawable.match_avatar)
+        if (otherUser != null) {
+            val bitmap = BitmapFactory.decodeByteArray(otherUser.picture, 0, otherUser.picture.size)
+            profile.setImageBitmap(bitmap)
+        } else {
+            profile.setBackgroundResource(R.drawable.match_avatar)
+        }
 
         timeStamp.text = time.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
         timeStamp.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
@@ -384,8 +397,8 @@ class ChatActivity : AppCompatActivity() {
             val matchID: Int = intent.getIntExtra("match_id", 1) //user2
             try {
 
-                val url = URL("https://api.spot-me.xyz/stored-chats?id=$userId&other_id=$matchID")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/stored-chats?id=$userId&other_id=$matchID")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()
@@ -474,8 +487,8 @@ class ChatActivity : AppCompatActivity() {
             val mess = URLEncoder.encode(text, "UTF-8")
 
             try {
-                val url = URL("https://api.spot-me.xyz/stored-chats?user1=$userId&user2=$matchID&message=$mess")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/stored-chats?user1=$userId&user2=$matchID&message=$mess")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "PUT"
                 conn.doOutput = true

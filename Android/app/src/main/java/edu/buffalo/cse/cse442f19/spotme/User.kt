@@ -1,5 +1,8 @@
 package edu.buffalo.cse.cse442f19.spotme
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
 import org.json.JSONObject
 
 class User {
@@ -15,21 +18,20 @@ class User {
     var partner_gender: Int = 0
     var partner_level: Int = 0
     var radius: Int = 10
+    var picture: ByteArray = ByteArray(0)
 
     fun getProfileFields(): Map<String, String> {
+        return mapOf(
+            Pair("Name", name),
+            Pair("Username", username),
+            Pair("Gender", "$gender"),
+            Pair("Birthday", dob),
+            Pair("Level", "$level"),
+            Pair("Weight", "$weight"),
+            Pair("Lat", "$lat"),
+            Pair("Lon", "$lon")
 
-        return mapOf<String, String>(
-            Pair<String, String>("Name", "$name"),
-            Pair<String, String>("Username", "$username"),
-            Pair<String, String>("Gender", "$gender"),
-            Pair<String, String>("Birthday", "$dob"),
-            Pair<String, String>("Level", "$level"),
-            Pair<String, String>("Weight", "$weight"),
-            Pair<String, String>("Lat", "$lat"),
-            Pair<String, String>("Lon", "$lon")
-
-        );
-//        return arrayOf<String>("$name", "$username", "$dob", "$gender", "$level", "$weight", "$lat", "$lon")
+        )
     }
 
     companion object {
@@ -49,13 +51,14 @@ class User {
             u.partner_level = jsonObject.optInt("partner_level")
             u.radius = jsonObject.optInt("radius")
             u.weight = jsonObject.optDouble("weight")
+            u.picture = Base64.decode(jsonObject.optString("picture"), Base64.DEFAULT)
 
             return u
         }
     }
 
     fun toJson(): JSONObject {
-        var o = JSONObject()
+        val o = JSONObject()
 
         o.put("id", this.id)
         o.put("username", this.username)
@@ -69,6 +72,7 @@ class User {
         o.put("partner_level", this.partner_level)
         o.put("radius", this.radius)
         o.put("weight", this.weight)
+        o.put("picture", Base64.encodeToString(this.picture, Base64.NO_WRAP))
 
         return o
     }

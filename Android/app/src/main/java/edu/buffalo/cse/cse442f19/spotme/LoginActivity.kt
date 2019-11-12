@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import javax.net.ssl.HttpsURLConnection
+import java.net.HttpURLConnection
 
 
 class LoginActivity : AppCompatActivity() {
@@ -50,31 +50,6 @@ class LoginActivity : AppCompatActivity() {
     class GetUserAsyncTask : AsyncTask<String, String, String>() {
         var userId: Int = 1
 
-        fun testFun (x : Int){
-            try {
-                val url = URL("https://api.spot-me.xyz/user?id=$x")
-                val conn = url.openConnection() as HttpsURLConnection
-
-                conn.requestMethod = "GET"
-                conn.connect()
-
-                val responseCode: Int = conn.responseCode
-                Log.d("GetUser", "responseCode - $responseCode")
-
-                val inStream = if (responseCode >= 400) {
-                    conn.errorStream
-                } else {
-                    conn.inputStream
-                }
-                val isReader = InputStreamReader(inStream)
-                val bReader = BufferedReader(isReader)
-
-                Globals.oustring = bReader.readText()
-            } catch (ex: Exception) {
-                Log.d("GetUser", "Error in doInBackground " + ex.message)
-            }
-        }
-
         override fun doInBackground(vararg p0: String?): String {
 
             Log.d("HELLO", "MADE IT")
@@ -82,8 +57,8 @@ class LoginActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/user?id=$userId")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/user?id=$userId")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()

@@ -8,14 +8,14 @@
     <string name="my_name">My name is:</string>
     <string name="namen">Name&#8230;</string>
     <string name="agea">Age:</string>
-    <string name="gender">Gender:</string>
+    <string name="gender">Gender</string>
     <string name="my_age">&#8230;</string>
     <string name="my_gender">&#8230;</string>
     <string name="want">I want to:</string>
     <string name="goal">I can </string>
     <string name="lift">I am a </string>
     <string name="i_lift">&#8230;</string>
-    <string name="lbs">lbs</string>
+    <string name="kg">%dkg</string>
     <string name="seeking">I am seeking: </string>
     <string name="weight">My weight is&#8230;</string>
     <string name="my_weight">&#8230;</string>

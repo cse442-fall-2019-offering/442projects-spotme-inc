@@ -3,6 +3,7 @@ package edu.buffalo.cse.cse442f19.spotme
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
@@ -24,7 +25,6 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 class MatchListActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -118,14 +118,15 @@ class MatchListActivity : AppCompatActivity() {
             if (u.id == user.id) {
 
                 Log.d("ABC", "Already accepted " + u.id)
-                return;
+                return
             }
         }
 
         Log.d("ABC", "Adding potential " + user.id)
         var profileButton: ImageButton = ImageButton(this)
 
-        profileButton.setImageResource(R.drawable.match_avatar)
+        val bitmap = BitmapFactory.decodeByteArray(user.picture, 0, user.picture.size)
+        profileButton.setImageBitmap(bitmap)
         profileButton.scaleType = ImageView.ScaleType.CENTER_INSIDE
 
         profileButton.setOnClickListener {
@@ -135,8 +136,8 @@ class MatchListActivity : AppCompatActivity() {
         }
 
         potentialMatchLinLayout.addView(profileButton)
-        profileButton.layoutParams.width = 250;
-        profileButton.layoutParams.height = 250;
+        profileButton.layoutParams.width = 250
+        profileButton.layoutParams.height = 250
     }
 
 //  Display Accepted Match
@@ -155,7 +156,8 @@ class MatchListActivity : AppCompatActivity() {
 
         acceptedMatchImage.layoutParams.width = 250
         acceptedMatchImage.layoutParams.height = 250
-        acceptedMatchImage.setImageResource(R.drawable.match_avatar)
+        val bitmap = BitmapFactory.decodeByteArray(user.picture, 0, user.picture.size)
+        acceptedMatchImage.setImageBitmap(bitmap)
         acceptedMatchImage.scaleType = ImageView.ScaleType.CENTER_INSIDE
         acceptedMatchImage.setOnClickListener {
 
@@ -201,8 +203,8 @@ class MatchListActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/matches?id=$userId")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/matches?id=$userId")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()
@@ -292,8 +294,8 @@ class MatchListActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/accepted-matches?id=$otherUserId")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/accepted-matches?id=$otherUserId")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()
@@ -348,8 +350,8 @@ class MatchListActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/accepted-matches?id=$userId")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/accepted-matches?id=$userId")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()
@@ -407,8 +409,8 @@ class MatchListActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/accepted-matches?user1=$userId1&user2=$userId2")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/accepted-matches?user1=$userId1&user2=$userId2")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "DELETE"
                 conn.doOutput = true
@@ -454,7 +456,7 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.MyProfileB -> {
-                startActivity(Intent(this, MyProfile::class.java))
+                startActivity(Intent(this, MyProfileActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -503,11 +505,5 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
             missingPerms.toArray(requested)
             ActivityCompat.requestPermissions(this, requested, 0)
         }
-    }
-
-    override fun onBackPressed() {
-
-        var intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
     }
 }
