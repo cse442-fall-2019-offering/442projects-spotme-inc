@@ -1,11 +1,13 @@
 import datetime
 import base64
+import io
+from PIL import Image
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.exc import NoResultFound
 from flask import request, jsonify
 
 from .app import app, db
 from . import models, util
-from sqlalchemy.orm import joinedload
-from sqlalchemy.orm.exc import NoResultFound
 
 @app.route("/")
 def index():
@@ -26,7 +28,12 @@ def user_update():
         if k == "dob":
             v = datetime.datetime.strptime(v, "%Y-%m-%d")
         if k == "picture":
-            v = base64.b64decode(v)
+            data = base64.b64decode(v)
+            img = Image.open(io.BytesIO(data))
+            img.thumbnail((512, 512))
+            out_data = io.BytesIO()
+            img.save(out_data, format="jpeg")
+            v = out_data.getvalue()
         update_dict[k] = v
     user = models.User.query.filter_by(id=user_json["id"]) \
             .update(update_dict)
