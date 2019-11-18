@@ -15,7 +15,6 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 
-
 class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,13 +24,13 @@ class LoginActivity : AppCompatActivity() {
         button.setOnClickListener {
             val intent = Intent(this, MatchListActivity :: class.java)
             if (Globals.currentUser != null) {
-
+                Notifications.displayNotification("Logging in as User: " + Globals.currentUser!!.id, this)
                 startActivity(intent)
             } else {
 
                 Log.d("LoginActivity", "Current user is null!")
+                Notifications.displayNotification("Cannot Login because the current User is null!", this)
             }
-
         }
 
         val selections = arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
