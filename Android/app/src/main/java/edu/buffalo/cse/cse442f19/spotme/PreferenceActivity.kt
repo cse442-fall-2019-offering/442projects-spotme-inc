@@ -2,6 +2,7 @@ package edu.buffalo.cse.cse442f19.spotme
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,13 +14,31 @@ import android.graphics.Rect
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
+import android.graphics.BitmapFactory
+import android.provider.MediaStore
+import android.widget.Toast
+import android.content.pm.PackageManager
+
+import android.Manifest
+import android.app.Activity
+import android.graphics.Bitmap
+import android.os.Build
+import android.os.Build.*
+import kotlinx.android.synthetic.main.activity_main.*
+import android.graphics.ImageDecoder
+
+import java.io.File
+import java.util.Base64
+import java.io.ByteArrayOutputStream;
 
 
 class PreferenceActivity() : AppCompatActivity() {
 
-    lateinit var viewName: TextView;// = TextView(this);
+    lateinit var viewName: TextView;// = TextView(this);'
+    lateinit var byteArray: ByteArray
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        var img: Unit
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preference)
 
@@ -29,6 +48,34 @@ class PreferenceActivity() : AppCompatActivity() {
         }
         val user = Globals.currentUser!!
 
+        uploadButton.setOnClickListener {
+            if (VERSION.SDK_INT >= VERSION_CODES.M){
+                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_DENIED){
+                    //permission denied
+                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    //show popup to request runtime permission
+                    requestPermissions(permissions, PERMISSION_CODE)
+                }
+                else{
+                    //permission already granted
+                    img = choosePhotoFromGallery()
+                    //Log.e("Let's see!", img.toString())
+                }
+            }
+            else{
+                //system OS is < Marshmallow
+                img = choosePhotoFromGallery()
+                //Log.e("Let's see!", img.toString())
+            }
+            //val intent = Intent(this, MatchListActivity :: class.java)
+            /*startActivityForResult(
+                Intent(
+                    Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI
+                ), GET_FROM_GALLERY
+            )*/
+        }
         prefPartnerGender.setSelection(user.partner_gender, false)
         prefDistance.setSelection(user.radius, false)
         prefPartnerLevel.setSelection(user.partner_level, false)
@@ -39,7 +86,8 @@ class PreferenceActivity() : AppCompatActivity() {
         var editName = EditText(this);
         editName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
         editName.setText(user.name)
-
+        val bitmap = BitmapFactory.decodeByteArray(user.picture, 0, user.picture.size)
+        UploadPhoto.setImageBitmap(bitmap)
         viewName = TextView(this)
         viewName.text = user.name
         viewName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
@@ -82,6 +130,108 @@ class PreferenceActivity() : AppCompatActivity() {
         prefLevel.onItemSelectedListener = spinnerUpdateListener
     }
 
+    fun toBase(image : String): String{
+        val bytes = File(image).readBytes()
+        val base64 = Base64.getEncoder().encodeToString(bytes)
+        return base64
+    }
+
+    fun choosePhotoFromGallery() {
+        /*val GALLERY = 1
+        val galleryIntent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+
+        startActivityForResult(galleryIntent, GALLERY)*/
+
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
+
+    companion object {
+        //image pick code
+        private val IMAGE_PICK_CODE = 1000;
+        //Permission code
+        private val PERMISSION_CODE = 1001;
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when(requestCode){
+            PERMISSION_CODE -> {
+                if (grantResults.size >0 && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED){
+                    //permission from popup granted
+                    choosePhotoFromGallery()
+                }
+                else{
+                    //permission from popup denied
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    fun bToBase(bit : Bitmap) : ByteArray{
+        val bytesArray = ByteArrayOutputStream()
+        Log.e("Array holds", "Success!")
+        bit.compress(Bitmap.CompressFormat.PNG, 100, bytesArray);
+        val bArray = bytesArray.toByteArray();
+        //val sArray = bArray.toString()
+        //Log.d("this is my deep array", "deep arr: " + Arrays.deepToString(x));
+        //Log.e("Byte Array", sArray)
+        //return
+        //val t = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        //UploadPhoto.setImageURI(imageUri)
+        byteArray = bArray
+        return bArray //toBase(sArray)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, d: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
+            //UploadPhoto.setImageURI(d?.data)
+            val imageUri = d?.data
+            val bitmap : Bitmap
+            if (imageUri != null){
+                val imageStream = getContentResolver().openInputStream(imageUri);
+                bitmap = BitmapFactory.decodeStream(imageStream);
+                /*val encodedImage = Base64.getEncoder()*/
+
+
+                //val b = ImageDecoder.createSource(contentResolver, imageUri)
+                //bitmap = ImageDecoder.decodeBitmap(b)
+                bToBase(bitmap)
+                //Log.e("q returns:", bitmap)
+                UploadPhoto.setImageURI(imageUri)
+            }
+
+            //var bitmap = d?.data
+            //UploadPhoto.setImageURI(imageUri)
+
+            //val byteArrayOutputStream = ByteArrayOutputStream()
+            //bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            //Log.e("Let's see!", d?.data.toString())
+            //val byteArrayOutputStream = ByteArrayOutputStream()
+
+            //var i = d?.extras!!.get("data") as Bitmap
+            //var p = Uri.parse(d?.data.toString())
+            //var d = UploadPhoto.drawable
+            //val base64 = Base64.getEncoder().encodeToString(v)
+            //println(base64)
+            //var v= getContentResolver().openInputStream(d.data?);
+            //toBase((d!!.data.toString()))
+            //var bitmap = BitmapFactory.decodeFile(i!!.path)
+            //Log.e("We have it!", bitmap.toString())
+        }
+    }
+
+    fun fix(){
+        //byteArray = Globals.currentUser!!.picture
+        Log.e("Testing", byteArray.toString())
+    }
+
     fun updatePreferences() {
         val user = Globals.currentUser!!
         user.name = viewName.text.toString()
@@ -89,6 +239,8 @@ class PreferenceActivity() : AppCompatActivity() {
         user.radius = prefDistance.selectedItemPosition
         user.partner_level = prefPartnerLevel.selectedItemPosition
         user.level = prefLevel.selectedItemPosition
+        user.picture = byteArray
+        //fix()
 
         UpdateUserAsyncTask().execute()
     }
