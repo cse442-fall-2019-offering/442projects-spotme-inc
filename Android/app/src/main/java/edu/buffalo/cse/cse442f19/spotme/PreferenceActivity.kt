@@ -137,12 +137,6 @@ class PreferenceActivity() : AppCompatActivity() {
     }
 
     fun choosePhotoFromGallery() {
-        /*val GALLERY = 1
-        val galleryIntent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-
-        startActivityForResult(galleryIntent, GALLERY)*/
 
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
@@ -178,12 +172,6 @@ class PreferenceActivity() : AppCompatActivity() {
         Log.e("Array holds", "Success!")
         bit.compress(Bitmap.CompressFormat.PNG, 100, bytesArray);
         val bArray = bytesArray.toByteArray();
-        //val sArray = bArray.toString()
-        //Log.d("this is my deep array", "deep arr: " + Arrays.deepToString(x));
-        //Log.e("Byte Array", sArray)
-        //return
-        //val t = Base64.encodeToString(byteArray, Base64.DEFAULT);
-        //UploadPhoto.setImageURI(imageUri)
         byteArray = bArray
         return bArray //toBase(sArray)
     }
@@ -197,39 +185,11 @@ class PreferenceActivity() : AppCompatActivity() {
             if (imageUri != null){
                 val imageStream = getContentResolver().openInputStream(imageUri);
                 bitmap = BitmapFactory.decodeStream(imageStream);
-                /*val encodedImage = Base64.getEncoder()*/
-
-
-                //val b = ImageDecoder.createSource(contentResolver, imageUri)
-                //bitmap = ImageDecoder.decodeBitmap(b)
                 bToBase(bitmap)
-                //Log.e("q returns:", bitmap)
                 UploadPhoto.setImageURI(imageUri)
+                updatePreferences()
             }
-
-            //var bitmap = d?.data
-            //UploadPhoto.setImageURI(imageUri)
-
-            //val byteArrayOutputStream = ByteArrayOutputStream()
-            //bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-            //Log.e("Let's see!", d?.data.toString())
-            //val byteArrayOutputStream = ByteArrayOutputStream()
-
-            //var i = d?.extras!!.get("data") as Bitmap
-            //var p = Uri.parse(d?.data.toString())
-            //var d = UploadPhoto.drawable
-            //val base64 = Base64.getEncoder().encodeToString(v)
-            //println(base64)
-            //var v= getContentResolver().openInputStream(d.data?);
-            //toBase((d!!.data.toString()))
-            //var bitmap = BitmapFactory.decodeFile(i!!.path)
-            //Log.e("We have it!", bitmap.toString())
         }
-    }
-
-    fun fix(){
-        //byteArray = Globals.currentUser!!.picture
-        Log.e("Testing", byteArray.toString())
     }
 
     fun updatePreferences() {
@@ -240,7 +200,6 @@ class PreferenceActivity() : AppCompatActivity() {
         user.partner_level = prefPartnerLevel.selectedItemPosition
         user.level = prefLevel.selectedItemPosition
         user.picture = byteArray
-        //fix()
 
         UpdateUserAsyncTask().execute()
     }
