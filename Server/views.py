@@ -1,10 +1,13 @@
 import datetime
+import base64
+import io
+from PIL import Image
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.exc import NoResultFound
 from flask import request, jsonify
 
 from .app import app, db
 from . import models, util
-from sqlalchemy.orm import joinedload
-from sqlalchemy.orm.exc import NoResultFound
 
 @app.route("/")
 def index():
@@ -24,6 +27,13 @@ def user_update():
             continue
         if k == "dob":
             v = datetime.datetime.strptime(v, "%Y-%m-%d")
+        if k == "picture":
+            data = base64.b64decode(v)
+            img = Image.open(io.BytesIO(data))
+            img.thumbnail((512, 512))
+            out_data = io.BytesIO()
+            img.save(out_data, format="jpeg")
+            v = out_data.getvalue()
         update_dict[k] = v
     user = models.User.query.filter_by(id=user_json["id"]) \
             .update(update_dict)
@@ -107,12 +117,15 @@ def match_list():
 
     matches = []
     for ou in other_users:
-        matches.append((util.match_score(user, ou), ou))
+        score, distance, fitness_level_desired = util.match_score(user, ou)
+        ouJson = ou.to_dict()
+        ouJson.update({'score': score, 'distance': distance, 'fitness_level_desired': fitness_level_desired})
+        matches.append((score, ouJson))
 
     matches.sort(key=lambda x: x[0], reverse=True)
 
     output = []
     for m in matches:
-        output.append(m[1].to_dict())
+        output.append(m[1])
 
     return jsonify({"matches": output})

@@ -3,6 +3,7 @@ package edu.buffalo.cse.cse442f19.spotme
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
@@ -24,7 +25,6 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 class MatchListActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -51,16 +51,24 @@ class MatchListActivity : AppCompatActivity() {
 
     fun acceptedUsersPart1Complete() {
 
+        Log.d("PART 1", "COMPLETE")
+        Log.d("Accepted one way amt", "" + Globals.acceptedUsersOneWay.size)
+
+        if (Globals.acceptedUsersOneWay.size == 0) {
+            acceptedUsersPart2Update()
+        } else {
+
 //      Check other way around now:
-        for (user in Globals.acceptedUsersOneWay) {
+            for (user in Globals.acceptedUsersOneWay) {
 
-            Log.d("Part 1", "" + user.id)
+                Log.d("Part 1", "" + user.id)
 
-            var otherWay = GetAcceptedMatchesOtherWayAsynchTask(user, this)
+                var otherWay = GetAcceptedMatchesOtherWayAsynchTask(user, this)
 
-            otherWay.otherUserId = user.id
+                otherWay.otherUserId = user.id
 
-            otherWay.execute()
+                otherWay.execute()
+            }
         }
     }
 
@@ -95,17 +103,30 @@ class MatchListActivity : AppCompatActivity() {
 //  Display Potential Match
     fun addPotentialMatch(user: User) {
 
+        for (u: User in Globals.acceptedUsersOneWay) {
+
+//          Already accepted this user.
+            if (u.id == user.id) {
+                Log.d("ABC", "Already accepted one way " + u.id)
+                return;
+            }
+        }
+
         for (u: User in Globals.currentAcceptedUsers) {
 
 //          Already accepted this user.
             if (u.id == user.id) {
 
-                return;
+                Log.d("ABC", "Already accepted " + u.id)
+                return
             }
         }
+
+        Log.d("ABC", "Adding potential " + user.id)
         var profileButton: ImageButton = ImageButton(this)
 
-        profileButton.setImageResource(R.drawable.match_avatar)
+        val bitmap = BitmapFactory.decodeByteArray(user.picture, 0, user.picture.size)
+        profileButton.setImageBitmap(bitmap)
         profileButton.scaleType = ImageView.ScaleType.CENTER_INSIDE
 
         profileButton.setOnClickListener {
@@ -115,8 +136,8 @@ class MatchListActivity : AppCompatActivity() {
         }
 
         potentialMatchLinLayout.addView(profileButton)
-        profileButton.layoutParams.width = 250;
-        profileButton.layoutParams.height = 250;
+        profileButton.layoutParams.width = 250
+        profileButton.layoutParams.height = 250
     }
 
 //  Display Accepted Match
@@ -135,7 +156,8 @@ class MatchListActivity : AppCompatActivity() {
 
         acceptedMatchImage.layoutParams.width = 250
         acceptedMatchImage.layoutParams.height = 250
-        acceptedMatchImage.setImageResource(R.drawable.match_avatar)
+        val bitmap = BitmapFactory.decodeByteArray(user.picture, 0, user.picture.size)
+        acceptedMatchImage.setImageBitmap(bitmap)
         acceptedMatchImage.scaleType = ImageView.ScaleType.CENTER_INSIDE
         acceptedMatchImage.setOnClickListener {
 
@@ -181,8 +203,8 @@ class MatchListActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/matches?id=$userId")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/matches?id=$userId")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()
@@ -221,8 +243,10 @@ class MatchListActivity : AppCompatActivity() {
 
                 var matchArray: JSONArray = responseObj.getJSONArray("matches")
                 Log.d("Match array size", ""+matchArray.length())
+
                 activity.clearPotentialMatches()
 
+                Log.d("MATCH ARRAY SIZE", ""+ matchArray.length())
                 for (i in 0 until matchArray.length()) {
 
                     var userJsonObj: JSONObject = matchArray[i] as JSONObject
@@ -262,7 +286,7 @@ class MatchListActivity : AppCompatActivity() {
         }
     }
 
-    class GetAcceptedMatchesOtherWayAsynchTask(private var otherUser: User, private var matchListActivity: MatchListActivity) : AsyncTask<String, String, String>() {
+    class GetAcceptedMatchesOtherWayAsynchTask(private var otherUser: User.ScoredUser, private var matchListActivity: MatchListActivity) : AsyncTask<String, String, String>() {
         var otherUserId: Int = 1;
 
         override fun doInBackground(vararg p0: String?): String {
@@ -270,8 +294,8 @@ class MatchListActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/accepted-matches?id=$otherUserId")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/accepted-matches?id=$otherUserId")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()
@@ -326,8 +350,8 @@ class MatchListActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/accepted-matches?id=$userId")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/accepted-matches?id=$userId")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()
@@ -354,7 +378,7 @@ class MatchListActivity : AppCompatActivity() {
 
 
                     var userObj: JSONObject = array[i] as JSONObject
-                    var user = User.fromJson(userObj)
+                    var user = User.ScoredUser.fromJson(userObj)
 //                    Globals.currentAcceptedUsers.add(user);
                     Globals.acceptedUsersOneWay.add(user)
                 }
@@ -385,8 +409,8 @@ class MatchListActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/accepted-matches?user1=$userId1&user2=$userId2")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/accepted-matches?user1=$userId1&user2=$userId2")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "DELETE"
                 conn.doOutput = true
@@ -432,7 +456,7 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.MyProfileB -> {
-                startActivity(Intent(this, MyProfile::class.java))
+                startActivity(Intent(this, MyProfileActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -481,11 +505,5 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
             missingPerms.toArray(requested)
             ActivityCompat.requestPermissions(this, requested, 0)
         }
-    }
-
-    override fun onBackPressed() {
-
-        var intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
     }
 }

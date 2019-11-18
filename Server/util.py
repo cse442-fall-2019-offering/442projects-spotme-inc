@@ -2,16 +2,31 @@ import math
 
 def match_score(user1, user2):
     DIST_FACTOR = 1
+    FITNESS_FACTOR = 2
 
-    score = 0
+    cost = 0
 
+    # Distance
     if user1.lat is not None and user1.lon is not None and \
             user2.lat is not None and user2.lon is not None:
         distance = haversine(user1.lat, user1.lon, user2.lat, user2.lon)
         distance = max(distance / 1000, 1)
-        score += DIST_FACTOR / distance**2
+        cost += DIST_FACTOR * distance**2
 
-    return score
+    # Partner fitness level preference
+    if user1.partner_level is not None and user2.level is not None and user1.partner_level != 3:
+        cost += FITNESS_FACTOR * (user1.partner_level - user2.level)**2
+
+    if user2.partner_level is not None and user1.level is not None and user2.partner_level != 3:
+        cost += FITNESS_FACTOR * (user2.partner_level - user1.level)**2
+
+    fitness_level_desired = False
+
+    if user1.partner_level is not None and user2.level is not None:
+        fitness_level_desired = user1.partner_level == user2.level
+
+    score = 1 / cost
+    return score, distance, fitness_level_desired
 
 # Haversine method for finding distance of two points on a sphere.
 # Source: https://janakiev.com/blog/gps-points-distance-python/
