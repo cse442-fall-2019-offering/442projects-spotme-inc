@@ -132,6 +132,7 @@ class MatchListActivity : AppCompatActivity() {
         profileButton.setOnClickListener {
             Globals.selectedMatch = user.id
             var intent = Intent(this, MatchProfileActivity::class.java)
+            intent.putExtra("match_id", user.id)
             startActivity(intent)
         }
 

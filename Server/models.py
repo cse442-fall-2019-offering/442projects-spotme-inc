@@ -5,6 +5,38 @@ from sqlalchemy.sql import func
 
 from .app import db
 
+class Ratings(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+
+    # First user
+    current_user = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
+
+    # Person User1 is rating
+    rated_user = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
+
+    # Number of stars given
+    rate = db.Column(db.Float(), nullable=False)
+
+    #profile_accuracy = db.Column(db.Text(), nullable=False)
+
+    #help = db.Column(db.Text(), nullable=False)
+
+    #good = db.Column(db.Text(), nullable=False)
+
+    #add_comment = db.Column(db.Text(), nullable=True)
+
+    # Time stamp rating was sent at
+    time = db.Column(db.DateTime(), server_default=func.now(), nullable=False)
+
+    def to_dict(self):
+        return {
+            "current_user": self.current_user,
+            "rated_user": self.rated_user,
+            "rate": self.rate,
+            "time": self.time.strftime("%Y-%m-%dT%H:%M:%S.%f%z"),
+        }
+
+
 class ChatMessage(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
 
@@ -33,7 +65,7 @@ class AcceptedMatches(db.Model):
 
     # The first user of an accepted pair
     user1 = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
-    
+
     # The second user of an accepted pair
     user2 = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
 
@@ -69,7 +101,7 @@ class User(db.Model):
     # User's last latitude and logitude
     lat = db.Column(db.Float(), nullable=True)
     lon = db.Column(db.Float(), nullable=True)
-    
+
     # User's distance preference
     radius = db.Column(db.Integer(), nullable=True)
 

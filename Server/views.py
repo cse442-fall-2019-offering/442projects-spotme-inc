@@ -129,3 +129,37 @@ def match_list():
         output.append(m[1])
 
     return jsonify({"matches": output})
+
+@app.route("/ratings", methods=["GET"])
+def ratings_get():
+    current_user = models.User.query.filter_by(id=request.args["id"]).one()
+
+    rated_user = models.User.query.filter_by(id=request.args["other_id"]).one()
+
+    total_entry = models.User.query.filter_by(rated_user = rated_user.id).count()
+
+    if total_entry == 0:
+
+        return jsonify({"rating": "Not rated"})
+
+    total_rate = 0.0
+
+    for rate in models.User.query.filter_by(rated_user = rated_user.id).all():
+
+        total_rate = total_rate + rate
+
+    avg = total_rate/total_entry
+
+    return jsonify({"rating": avg})
+
+@app.route("/ratings", methods=["PUT"])
+def enter_ratings():
+    new_rating = models.Ratings()
+    new_rating.current_user = request.args["user1"]
+    new_message.rated_user = request.args["rated_user"]
+    new_message.rate = request.args["rating"]
+
+    db.session.add(new_rating)
+    db.session.commit()
+
+    return jsonify({"put-received": True})
