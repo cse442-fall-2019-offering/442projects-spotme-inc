@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "833559219679",
+    "firebase_url": "https://spot-me-50f02.firebaseio.com",
+    "project_id": "spot-me-50f02",
+    "storage_bucket": "spot-me-50f02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833559219679:android:24e70ac05ca4030f9c086a",
+        "android_client_info": {
+          "package_name": "edu.buffalo.cse.cse442f19.spotme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "833559219679-1n5ge9202ism23adblqbj4v46begnjhg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.buffalo.cse.cse442f19.spotme",
+            "certificate_hash": "b02e19cc033866ac134c18de8979d711c17a07b6"
+          }
+        },
+        {
+          "client_id": "833559219679-p66vrci777u8lepfkbch2r3mhtv2cdut.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnzH4m9_VcLFOEDDYbcKajK6cU71M9kAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "833559219679-p66vrci777u8lepfkbch2r3mhtv2cdut.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
