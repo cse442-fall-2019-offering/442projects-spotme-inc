@@ -199,6 +199,13 @@ class PreferenceActivity() : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        updatePreferences()
+        val intent = Intent(this, MyProfileActivity :: class.java)
+        startActivity(intent)
+    }
+
     fun updatePreferences() {
         val user = Globals.currentUser!!
         user.name = viewName.text.toString()
