@@ -6,9 +6,6 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.EditText
-import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_preference.*
 import android.graphics.Rect
 import android.util.TypedValue
@@ -16,7 +13,6 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.graphics.BitmapFactory
 import android.provider.MediaStore
-import android.widget.Toast
 import android.content.pm.PackageManager
 
 import android.Manifest
@@ -26,6 +22,9 @@ import android.os.Build
 import android.os.Build.*
 import kotlinx.android.synthetic.main.activity_main.*
 import android.graphics.ImageDecoder
+import android.view.Gravity
+import android.widget.*
+import androidx.core.view.setPadding
 
 import java.io.File
 import java.util.Base64
@@ -35,7 +34,8 @@ import java.io.ByteArrayOutputStream;
 class PreferenceActivity() : AppCompatActivity() {
 
     lateinit var viewName: TextView;// = TextView(this);'
-    lateinit var byteArray: ByteArray
+    lateinit var byteArray: ByteArray;
+    lateinit var upButton: Button;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         var img: Unit
@@ -47,6 +47,8 @@ class PreferenceActivity() : AppCompatActivity() {
             startActivity(intent)
         }
         val user = Globals.currentUser!!
+
+        byteArray = user.picture
 
         uploadButton.setOnClickListener {
             if (VERSION.SDK_INT >= VERSION_CODES.M){
@@ -81,13 +83,18 @@ class PreferenceActivity() : AppCompatActivity() {
         prefPartnerLevel.setSelection(user.partner_level, false)
         prefLevel.setSelection(user.level, false)
 
-        val nameChangeIndex = 1;
+        val nameChangeIndex = 3;
+
+        val bitmap = BitmapFactory.decodeByteArray(user.picture, 0, user.picture.size)
+        UploadPhoto.setImageBitmap(bitmap)
+        //UploadPhoto.setPadding(0,0,0,0)
+
+        uploadButton.setText("UPLOAD PHOTO")
 
         var editName = EditText(this);
         editName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
         editName.setText(user.name)
-        val bitmap = BitmapFactory.decodeByteArray(user.picture, 0, user.picture.size)
-        UploadPhoto.setImageBitmap(bitmap)
+
         viewName = TextView(this)
         viewName.text = user.name
         viewName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
