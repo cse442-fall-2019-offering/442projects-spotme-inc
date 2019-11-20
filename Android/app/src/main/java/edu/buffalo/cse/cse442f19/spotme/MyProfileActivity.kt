@@ -19,6 +19,13 @@ class MyProfileActivity : AppCompatActivity() {
         updateFields()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        updateFields()
+        /*val intent = Intent(this, MyProfileActivity :: class.java)
+        startActivity(intent)*/
+    }
+
     fun updateFields() {
         val user = Globals.currentUser!!
         Log.d("CURRENT USER", user.toString())
@@ -52,6 +59,8 @@ class MyProfileActivity : AppCompatActivity() {
                 var intent = Intent(this, PreferenceActivity::class.java)
 
                 startActivity(intent)
+
+                finish()
 
                 true
             }
