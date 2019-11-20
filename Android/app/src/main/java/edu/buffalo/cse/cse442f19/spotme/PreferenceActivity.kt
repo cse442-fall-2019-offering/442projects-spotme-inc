@@ -38,7 +38,7 @@ class PreferenceActivity() : AppCompatActivity() {
     lateinit var upButton: Button;
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        var img: Unit
+        //var img: Unit
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preference)
 
@@ -61,13 +61,13 @@ class PreferenceActivity() : AppCompatActivity() {
                 }
                 else{
                     //permission already granted
-                    img = choosePhotoFromGallery()
+                    //img = choosePhotoFromGallery()
                     //Log.e("Let's see!", img.toString())
                 }
             }
             else{
                 //system OS is < Marshmallow
-                img = choosePhotoFromGallery()
+                //img = choosePhotoFromGallery()
                 //Log.e("Let's see!", img.toString())
             }
             //val intent = Intent(this, MatchListActivity :: class.java)
@@ -201,6 +201,12 @@ class PreferenceActivity() : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        val v = currentFocus
+        if (v is EditText) {
+            val outRect = Rect()
+            v.getGlobalVisibleRect(outRect)
+            v.clearFocus()
+        }
         updatePreferences()
         val intent = Intent(this, MyProfileActivity :: class.java)
         startActivity(intent)
