@@ -1,7 +1,6 @@
 package edu.buffalo.cse.cse442f19.spotme.utils
 
 import android.util.Log
-import edu.buffalo.cse.cse442f19.spotme.User
 import java.time.LocalDateTime
 
 class Date {

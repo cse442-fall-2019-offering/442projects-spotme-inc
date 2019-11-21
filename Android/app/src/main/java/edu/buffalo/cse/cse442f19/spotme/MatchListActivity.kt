@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
@@ -17,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import edu.buffalo.cse.cse442f19.spotme.utils.ChatPollTask
 
 import kotlinx.android.synthetic.main.activity_match_list.*
 import org.json.JSONArray
@@ -33,6 +35,8 @@ class MatchListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_match_list)
+
+        Globals.matchListActivity = this;
 
         val task = GetAcceptedMatchesAsyncTask(this)
         task.userId = Globals.currentUser!!.id
@@ -192,6 +196,40 @@ class MatchListActivity : AppCompatActivity() {
 
     }
 
+    fun finishedLoadingAllMatches() {
+
+        if (Globals.updateHandler != null) {
+
+            //Clears it from all current callbacks being run on the handler.
+            Globals.updateHandler!!.removeCallbacksAndMessages(null)
+        }
+
+        Globals.updateHandler = Handler()
+
+
+        //================
+        //CHAT POLLING
+        //================
+
+        //Execute the first chat pull which should NOT display any notifications.
+        ChatPollTask(false).execute()
+
+        val pollChat = object : Runnable {
+            override fun run() {
+
+                //Poll for new messages and display notifications.
+                ChatPollTask(true).execute()
+                Globals.updateHandler!!.postDelayed(this, 5 * 1000); //Restart task every 5 seconds.
+            }
+        }
+        // Start the runnable task after 5 seconds by posting through the handler
+        Globals.updateHandler!!.postDelayed(pollChat, 5 * 1000)
+
+        //================
+        //END CHAT POLLING
+        //================
+    }
+
     class GetPotentialMatchesAsyncTask(private var activity: MatchListActivity) : AsyncTask<String, String, String>() {
 
         var userId: Int = 1
@@ -254,6 +292,7 @@ class MatchListActivity : AppCompatActivity() {
                     Log.d("USER OBJ", userObj.toString())
                     activity.addPotentialMatch(userObj)
                 }
+                activity.finishedLoadingAllMatches();
                 /*var user1Json = matchArray[0] as JSONObject
                 Globals.otherUser1 = User.fromJson(user1Json)
 
