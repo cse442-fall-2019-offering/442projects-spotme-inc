@@ -129,3 +129,53 @@ def match_list():
         output.append(m[1])
 
     return jsonify({"matches": output})
+
+@app.route("/ratings", methods=["GET"])
+def ratings_get():
+
+    rated_user = models.User.query.filter_by(id=request.args["id"]).one()
+
+    total_entry = models.Ratings.query.filter_by(rated_user = rated_user.id).count()
+
+    if total_entry == 0:
+
+        return jsonify({"rating": "Not rated"})
+
+    total_rate = 0.0
+
+    for rating in models.Ratings.query.filter_by(rated_user = rated_user.id).all():
+
+        total_rate = total_rate + rating.rate
+
+    avg = total_rate/total_entry
+
+    return jsonify({"rating": avg})
+
+@app.route("/singlerating", methods=["GET"])
+def single_rating_get():
+
+    rating_count = models.Ratings.query.filter_by(current_user=request.args["rater"], rated_user=request.args["ratee"]).count()
+
+    if rating_count == 0:
+        return jsonify({"rating": 0})
+
+    ratings_obj = models.Ratings.query.filter_by(current_user=request.args["rater"], rated_user=request.args["ratee"]).one()
+    return jsonify({"rating": ratings_obj.rate})
+
+@app.route("/ratings", methods=["PUT"])
+def enter_ratings():
+
+    new_rating = models.Ratings()
+    new_rating.current_user = request.args["user1"] #current user id
+    new_rating.rated_user = request.args["rated_user"] #rated user id
+    new_rating.rate = request.args["rating"]
+
+    #If the database already has one (or more for whatever reason) rating from this user for the rated user,
+    #delete them all.
+    for oldRating in models.Ratings.query.filter_by(current_user=new_rating.current_user, rated_user=new_rating.rated_user).all():
+        db.session.delete(oldRating)
+
+    db.session.add(new_rating)
+    db.session.commit()
+
+    return jsonify({"put-received": True})

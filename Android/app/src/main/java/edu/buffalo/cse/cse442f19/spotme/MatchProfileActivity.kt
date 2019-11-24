@@ -38,7 +38,12 @@ class MatchProfileActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.rate -> {
-                startActivity(Intent(this, RatingActivity::class.java))
+                //val intent2 = activity.intent
+                val matchID: Int = intent.getIntExtra("match_id", 1) //user2
+                val intent = Intent(this, RatingActivity::class.java)
+                //startActivity(Intent(this, RatingActivity::class.java))
+                intent.putExtra("match_id", matchID)
+                startActivity(intent)
                 true
             }
             R.id.report -> {
@@ -68,8 +73,11 @@ class MatchProfileActivity : AppCompatActivity() {
         val bitmap = BitmapFactory.decodeByteArray(user.picture, 0, user.picture.size)
         imageView.setImageBitmap(bitmap)
 
+        val task = LoadRateAsyncTask(this)
 
-        var factors: String = "";
+        task.execute()
+
+        var factors = ""
 
         if (user.fitness_level_desired) {
 
@@ -89,6 +97,81 @@ class MatchProfileActivity : AppCompatActivity() {
 
             val intent = Intent(this, MatchListActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    fun setRating(rating: Any) {
+
+//        Log.d("Rating is string", ""+ (rating is String))
+//        Log.d("Rating is double", "" + (rating is Double))
+//        Log.d("Rating is float", "" + (rating is Float))
+
+        if (rating is String) {
+
+            average_rating.text = "This user has not been rated yet!"
+        } else {
+
+            average_rating.text = "$rating stars!"
+        }
+    }
+
+    class LoadRateAsyncTask(private var activity: MatchProfileActivity) : AsyncTask<String, String, String>() {
+
+        override fun doInBackground(vararg p0: String?): String {
+
+            var result = ""
+
+            val intent = activity.intent
+
+            val matchID: Int = intent.getIntExtra("match_id", 1) //user1
+
+            try {
+
+                val url = URL("${Globals.ENDPOINT_BASE}/ratings?id=$matchID")
+                val conn = url.openConnection() as HttpURLConnection
+
+                conn.requestMethod = "GET"
+                conn.connect()
+
+                val responseCode: Int = conn.responseCode
+                Log.d("GetUser", "responseCode - $responseCode")
+
+                val inStream = if (responseCode >= 400) {
+                    conn.errorStream
+                } else {
+                    conn.inputStream
+                }
+                val isReader = InputStreamReader(inStream)
+                val bReader = BufferedReader(isReader)
+
+                result = bReader.readText()
+
+
+            } catch (ex: Exception) {
+                Log.d("GetUser", "Error in doInBackground " + ex.message)
+            }
+            return result
+        }
+
+        override fun onPostExecute(result: String) {
+
+            super.onPostExecute(result)
+            //handler.post(runnableCode)
+
+            if (result == "") {
+                Log.d("Result", "EMPTY")
+            } else {
+                Log.d("Result", result)
+
+//                Globals.currentUser = User.fromJson(JSONObject(result))
+                //Use result to get values for chat
+                val jsonObject = JSONObject(result)
+
+
+                val rating = jsonObject.get("rating")
+
+                activity.setRating(rating)
+            }
         }
     }
 
@@ -209,5 +292,11 @@ class MatchProfileActivity : AppCompatActivity() {
                 activity.addUser(selectedUser)
             }
         }
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        val newIntent = Intent(this, MatchListActivity :: class.java)
+        startActivity(newIntent)
     }
 }

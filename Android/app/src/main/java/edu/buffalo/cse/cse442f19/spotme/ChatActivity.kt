@@ -34,6 +34,7 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_screen)
+            //activity_chat_screen)
         setSupportActionBar(toolbar)
 
 //      Start off by loading all the history currently stored in Globals.
