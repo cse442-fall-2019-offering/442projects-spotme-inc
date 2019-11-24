@@ -100,9 +100,19 @@ class MatchProfileActivity : AppCompatActivity() {
         }
     }
 
-    fun setStars(stars: String) {
-        average_rating.text = (stars + " stars")
+    fun setRating(rating: Any) {
 
+//        Log.d("Rating is string", ""+ (rating is String))
+//        Log.d("Rating is double", "" + (rating is Double))
+//        Log.d("Rating is float", "" + (rating is Float))
+
+        if (rating is String) {
+
+            average_rating.text = "This user has not been rated yet!"
+        } else {
+
+            average_rating.text = "$rating stars!"
+        }
     }
 
     class LoadRateAsyncTask(private var activity: MatchProfileActivity) : AsyncTask<String, String, String>() {
@@ -111,15 +121,13 @@ class MatchProfileActivity : AppCompatActivity() {
 
             var result = ""
 
-            val userId: Int = Globals.currentUser!!.id
-
             val intent = activity.intent
 
             val matchID: Int = intent.getIntExtra("match_id", 1) //user1
 
             try {
 
-                val url = URL("${Globals.ENDPOINT_BASE}/ratings?id=$userId&other_id=$matchID")
+                val url = URL("${Globals.ENDPOINT_BASE}/ratings?id=$matchID")
                 val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
@@ -159,12 +167,10 @@ class MatchProfileActivity : AppCompatActivity() {
                 //Use result to get values for chat
                 val jsonObject = JSONObject(result)
 
-                val str_num = jsonObject.getJSONObject("rating")
 
-                val rate = str_num.getString("message")
+                val rating = jsonObject.get("rating")
 
-                activity.setStars(rate)
-
+                activity.setRating(rating)
             }
         }
     }
@@ -286,5 +292,11 @@ class MatchProfileActivity : AppCompatActivity() {
                 activity.addUser(selectedUser)
             }
         }
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        val newIntent = Intent(this, MatchListActivity :: class.java)
+        startActivity(newIntent)
     }
 }
