@@ -37,6 +37,18 @@ class PreferenceActivity() : AppCompatActivity() {
     lateinit var byteArray: ByteArray;
     lateinit var upButton: Button;
 
+    /*
+    ./manage.sh run -h 0.0.0.0 //run server
+    //might need to update stuff
+        pipenv sync
+    //If you change the database and need it updated
+    //Also run this the first time you do it to create the tables.
+        ./manage.sh db upgrade
+    //When you change the database do the same thing with migrate
+        ./manage.sh db migrate
+
+ */
+
     override fun onCreate(savedInstanceState: Bundle?) {
         //var img: Unit
         super.onCreate(savedInstanceState)
@@ -60,12 +72,14 @@ class PreferenceActivity() : AppCompatActivity() {
                     requestPermissions(permissions, PERMISSION_CODE)
                 }
                 else{
+                    choosePhotoFromGallery()
                     //permission already granted
                     //img = choosePhotoFromGallery()
                     //Log.e("Let's see!", img.toString())
                 }
             }
             else{
+                choosePhotoFromGallery()
                 //system OS is < Marshmallow
                 //img = choosePhotoFromGallery()
                 //Log.e("Let's see!", img.toString())
@@ -175,11 +189,13 @@ class PreferenceActivity() : AppCompatActivity() {
     }
 
     fun bToBase(bit : Bitmap) : ByteArray{
+        val user = Globals.currentUser!!
         val bytesArray = ByteArrayOutputStream()
-        Log.e("Array holds", "Success!")
+        //Log.e("Array holds", "Success!")
         bit.compress(Bitmap.CompressFormat.PNG, 100, bytesArray);
         val bArray = bytesArray.toByteArray();
         byteArray = bArray
+        user.picture = byteArray
         return bArray //toBase(sArray)
     }
 
