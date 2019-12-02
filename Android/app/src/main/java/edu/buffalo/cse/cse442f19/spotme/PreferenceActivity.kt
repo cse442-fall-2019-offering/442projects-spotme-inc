@@ -37,21 +37,46 @@ class PreferenceActivity() : AppCompatActivity() {
     lateinit var byteArray: ByteArray;
     lateinit var upButton: Button;
 
+    /*
+    ./manage.sh run -h 0.0.0.0 //run server
+    //might need to update stuff
+        pipenv sync
+    //If you change the database and need it updated
+    //Also run this the first time you do it to create the tables.
+        ./manage.sh db upgrade
+    //When you change the database do the same thing with migrate
+        ./manage.sh db migrate
+
+ */
+
     override fun onCreate(savedInstanceState: Bundle?) {
         //var img: Unit
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preference)
 
         if (Globals.currentUser == null) {
-            val intent = Intent(this, LoginActivity :: class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-        }
+        }else{
         val user = Globals.currentUser!!
 
         byteArray = user.picture
 
         uploadButton.setOnClickListener {
-            if (VERSION.SDK_INT >= VERSION_CODES.M){
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_DENIED
+            ) {
+                //permission denied
+                val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                //show popup to request runtime permission
+                requestPermissions(permissions, PERMISSION_CODE)
+            } else {
+                choosePhotoFromGallery()
+                //permission already granted
+                //img = choosePhotoFromGallery()
+                //Log.e("Let's see!", img.toString())
+            }
+            /*if (VERSION.SDK_INT >= VERSION_CODES.M){
                 if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_DENIED){
                     //permission denied
@@ -60,16 +85,18 @@ class PreferenceActivity() : AppCompatActivity() {
                     requestPermissions(permissions, PERMISSION_CODE)
                 }
                 else{
+                    choosePhotoFromGallery()
                     //permission already granted
                     //img = choosePhotoFromGallery()
                     //Log.e("Let's see!", img.toString())
                 }
             }
             else{
+                choosePhotoFromGallery()
                 //system OS is < Marshmallow
                 //img = choosePhotoFromGallery()
                 //Log.e("Let's see!", img.toString())
-            }
+            }*/
             //val intent = Intent(this, MatchListActivity :: class.java)
             /*startActivityForResult(
                 Intent(
@@ -98,7 +125,12 @@ class PreferenceActivity() : AppCompatActivity() {
         viewName = TextView(this)
         viewName.text = user.name
         viewName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-        viewName.setPadding(editName.paddingLeft, editName.paddingTop, editName.paddingRight, editName.paddingBottom)
+        viewName.setPadding(
+            editName.paddingLeft,
+            editName.paddingTop,
+            editName.paddingRight,
+            editName.paddingBottom
+        )
         linlayout.addView(viewName, nameChangeIndex);
 
         viewName.setOnClickListener {
@@ -126,7 +158,13 @@ class PreferenceActivity() : AppCompatActivity() {
         val spinnerUpdateListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 updatePreferences()
             }
         }
@@ -135,6 +173,7 @@ class PreferenceActivity() : AppCompatActivity() {
         prefDistance.onItemSelectedListener = spinnerUpdateListener
         prefPartnerLevel.onItemSelectedListener = spinnerUpdateListener
         prefLevel.onItemSelectedListener = spinnerUpdateListener
+    }
     }
 
     fun toBase(image : String): String{
@@ -175,11 +214,14 @@ class PreferenceActivity() : AppCompatActivity() {
     }
 
     fun bToBase(bit : Bitmap) : ByteArray{
+        val user = Globals.currentUser!!
         val bytesArray = ByteArrayOutputStream()
-        Log.e("Array holds", "Success!")
+        //Log.e("Array holds", "Success!")
         bit.compress(Bitmap.CompressFormat.PNG, 100, bytesArray);
         val bArray = bytesArray.toByteArray();
         byteArray = bArray
+        user.picture = byteArray
+        UpdateUserAsyncTask().execute()
         return bArray //toBase(sArray)
     }
 
@@ -208,6 +250,7 @@ class PreferenceActivity() : AppCompatActivity() {
             v.clearFocus()
         }
         updatePreferences()
+        UpdateUserAsyncTask().execute()
         val intent = Intent(this, MyProfileActivity :: class.java)
         startActivity(intent)
     }
@@ -220,7 +263,7 @@ class PreferenceActivity() : AppCompatActivity() {
         user.partner_level = prefPartnerLevel.selectedItemPosition
         user.level = prefLevel.selectedItemPosition
         user.picture = byteArray
-
+        //Log.e("Locate", "I am here!")
         UpdateUserAsyncTask().execute()
     }
 
