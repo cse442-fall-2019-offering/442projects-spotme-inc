@@ -546,4 +546,12 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
             ActivityCompat.requestPermissions(this, requested, 0)
         }
     }
+    
+    override fun onBackPressed() {
+
+        super.onBackPressed()
+
+        val newIntent = Intent(this, LoginActivity :: class.java)
+        startActivity(newIntent)
+    }
 }
