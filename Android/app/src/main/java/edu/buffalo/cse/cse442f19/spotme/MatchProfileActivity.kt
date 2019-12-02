@@ -84,8 +84,8 @@ class MatchProfileActivity : AppCompatActivity() {
             factors += user.name + " matches your desired fitness level!\n"
         }
 
-        factors += "Distance: " + user.distance + "\n"
-        factors += "Match Score: " + user.match_score
+        factors += "Distance: " + user.distance + " meters" + "\n"
+        factors += "Match Score: " + user.match_score + "\n" + "Note: The match score is an arbitrary number that only represents the order in which you receive your matches."
 
         match_factors.text = factors
 
