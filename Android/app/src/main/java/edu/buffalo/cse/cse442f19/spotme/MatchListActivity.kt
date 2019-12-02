@@ -126,6 +126,11 @@ class MatchListActivity : AppCompatActivity() {
             }
         }
 
+        if (user.gender != Globals.currentUser!!.partner_gender && Globals.currentUser!!.partner_gender != 2) {
+
+            return;
+        }
+
         Log.d("ABC", "Adding potential " + user.id)
         var profileButton: ImageButton = ImageButton(this)
 

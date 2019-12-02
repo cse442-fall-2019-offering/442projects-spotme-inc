@@ -57,18 +57,6 @@
             android:entries="@array/select_gender" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:labelFor="@id/prefDistance"
-            android:text="@string/max_distance_text_view_" />
-
-        <Spinner
-            android:id="@+id/prefDistance"
-            android:layout_width="271dp"
-            android:layout_height="28dp"
-            android:entries="@array/select_distance" />
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:labelFor="@id/prefPartnerLevel"
@@ -79,5 +67,22 @@
             android:layout_width="271dp"
             android:layout_height="28dp"
             android:entries="@array/select_partner_level" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/prefDistance"
+            android:text="@string/max_distance_text_view_"
+            android:visibility="invisible"
+            tools:visibility="invisible" />
+
+        <Spinner
+            android:id="@+id/prefDistance"
+            android:layout_width="271dp"
+            android:layout_height="28dp"
+            android:entries="@array/select_distance"
+            android:visibility="invisible"
+            tools:visibility="invisible" />
+
     </LinearLayout>
 </ScrollView>

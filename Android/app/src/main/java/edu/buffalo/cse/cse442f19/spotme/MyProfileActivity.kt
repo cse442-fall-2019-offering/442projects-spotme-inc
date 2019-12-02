@@ -22,6 +22,9 @@ class MyProfileActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         updateFields()
+
+        val newIntent = Intent(this, MatchListActivity :: class.java)
+        startActivity(newIntent)
         /*val intent = Intent(this, MyProfileActivity :: class.java)
         startActivity(intent)*/
     }
