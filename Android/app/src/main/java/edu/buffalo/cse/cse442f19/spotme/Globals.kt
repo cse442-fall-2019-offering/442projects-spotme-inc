@@ -21,7 +21,7 @@ class Globals {
         var oustring: String = ""
 
         var selectedMatch: Int? = null
-        const val ENDPOINT_BASE = "http://10.84.25.80:5000"//"https://api.spot-me.xyz"
+        const val ENDPOINT_BASE = "https://api.spot-me.xyz"
     }
 }
 
