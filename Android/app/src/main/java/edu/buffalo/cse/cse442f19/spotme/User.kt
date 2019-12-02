@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import org.json.JSONObject
+import kotlin.math.roundToInt
 
 open class User {
     var dob: String = ""
@@ -79,7 +80,7 @@ open class User {
 
     class ScoredUser : User() {
 
-        var match_score: Int = 0;
+        var match_score: Double = 0.0;
         var distance: Int = 0;
         var fitness_level_desired: Boolean = false;
 
@@ -101,7 +102,7 @@ open class User {
                 u.radius = jsonObject.optInt("radius")
                 u.weight = jsonObject.optDouble("weight")
                 u.picture = Base64.decode(jsonObject.optString("picture"), Base64.DEFAULT)
-                u.match_score = jsonObject.optInt("score")
+                u.match_score = (jsonObject.optDouble("score") * 10000).roundToInt() / 10000.0
                 u.distance = jsonObject.optInt("distance")
                 u.fitness_level_desired = jsonObject.optBoolean("fitness_level_desired")
 
