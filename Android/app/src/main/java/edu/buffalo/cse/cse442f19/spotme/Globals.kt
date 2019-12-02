@@ -1,21 +1,27 @@
 package edu.buffalo.cse.cse442f19.spotme
 
+import android.app.Activity
+import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
+import edu.buffalo.cse.cse442f19.spotme.utils.ChatHistory
+
 class Globals {
     companion object {
         @JvmStatic
         var currentUser: User? = null
-        var currentAcceptedUsers = arrayListOf<User>()
-        var otherUser1: User? = null
-        var otherUser2: User? = null
-        var otherUser3: User? = null
-        var otherUser4: User? = null
-        var otherUser5: User? = null
-        var otherUser6: User? = null
-        var otherUser7: User? = null
-        var otherUser8: User? = null
-        var otherUser9: User? = null
+
+        var matchListActivity: AppCompatActivity? = null;
+        //Update handler for all update polls
+        var updateHandler: Handler? = null;
+        //Keep this constantly updated and load from here.  Also use for notifications with constant updating
+        var chatHistories: HashMap<Int, ChatHistory> = hashMapOf()
+
+        var acceptedUsersOneWay = arrayListOf<User.ScoredUser>()
+        var currentAcceptedUsers = arrayListOf<User.ScoredUser>()
         var oustring: String = ""
+
         var selectedMatch: Int? = null
+        const val ENDPOINT_BASE = "https://api.spot-me.xyz"
     }
 }
 

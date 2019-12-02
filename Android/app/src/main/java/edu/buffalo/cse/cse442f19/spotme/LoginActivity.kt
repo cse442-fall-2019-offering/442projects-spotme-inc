@@ -13,8 +13,7 @@ import android.widget.ArrayAdapter
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import javax.net.ssl.HttpsURLConnection
-
+import java.net.HttpURLConnection
 
 class LoginActivity : AppCompatActivity() {
 
@@ -24,8 +23,14 @@ class LoginActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             val intent = Intent(this, MatchListActivity :: class.java)
-            startActivity(intent)
+            if (Globals.currentUser != null) {
+                Notifications.displayNotification("Logging in as User: " + Globals.currentUser!!.id, this)
+                startActivity(intent)
+            } else {
 
+                Log.d("LoginActivity", "Current user is null!")
+                Notifications.displayNotification("Cannot Login because the current User is null!", this)
+            }
         }
 
         val selections = arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
@@ -50,31 +55,6 @@ class LoginActivity : AppCompatActivity() {
     class GetUserAsyncTask : AsyncTask<String, String, String>() {
         var userId: Int = 1
 
-        fun testFun (x : Int){
-            try {
-                val url = URL("https://api.spot-me.xyz/user?id=$x")
-                val conn = url.openConnection() as HttpsURLConnection
-
-                conn.requestMethod = "GET"
-                conn.connect()
-
-                val responseCode: Int = conn.responseCode
-                Log.d("GetUser", "responseCode - $responseCode")
-
-                val inStream = if (responseCode >= 400) {
-                    conn.errorStream
-                } else {
-                    conn.inputStream
-                }
-                val isReader = InputStreamReader(inStream)
-                val bReader = BufferedReader(isReader)
-
-                Globals.oustring = bReader.readText()
-            } catch (ex: Exception) {
-                Log.d("GetUser", "Error in doInBackground " + ex.message)
-            }
-        }
-
         override fun doInBackground(vararg p0: String?): String {
 
             Log.d("HELLO", "MADE IT")
@@ -82,8 +62,8 @@ class LoginActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/user?id=$userId")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/user?id=$userId")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()

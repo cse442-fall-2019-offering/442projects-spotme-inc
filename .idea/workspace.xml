@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="7e42ad7e-ab35-4e61-8e9e-3a95906115fc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Android/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/Globals.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/Globals.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/LoginActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/LoginActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Android/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/MatchListActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/MatchListActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/MatchProfileActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/MatchProfileActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/MyProfile.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/MyProfile.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/layout/activity_my_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Android/app/src/main/res/layout/activity_my_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/RatingActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/RatingActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/layout/activity_match_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Android/app/src/main/res/layout/activity_match_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SpotMe.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SpotMe.iml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,16 +30,22 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Nexus_5X_API_28" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_29" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/MyProfile.kt">
+        <entry file="file://$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/RatingActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="14" column="34" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
+            <state relative-caret-position="330">
+              <caret line="38" column="25" lean-forward="true" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Android/app/src/main/res/layout/activity_rating.xml">
+          <provider selected="true" editor-type-id="android-designer2" />
+          <provider editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -41,6 +57,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/MyProfile.kt" />
+        <option value="$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/RatingActivity.kt" />
       </list>
     </option>
   </component>
@@ -57,7 +74,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
     <option name="x" value="-1" />
     <option name="y" value="23" />
     <option name="width" value="1280" />
@@ -68,42 +85,50 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="Proj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Proj" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
-              <item name="Proj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Proj" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="Android" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Proj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Proj" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="Android" type="462c0819:PsiDirectoryNode" />
+              <item name=".gradle" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="Android" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Proj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Proj" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="Android" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Proj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Proj" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="Android" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Proj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Proj" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="Android" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
@@ -111,8 +136,8 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Proj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Proj" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="Android" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
@@ -121,8 +146,8 @@
               <item name="edu" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Proj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Proj" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="Android" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
@@ -132,8 +157,8 @@
               <item name="buffalo" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Proj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Proj" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="Android" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
@@ -144,8 +169,8 @@
               <item name="cse" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Proj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Proj" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="Android" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
@@ -157,8 +182,8 @@
               <item name="cse442f19" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Proj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Proj" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="Android" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
@@ -170,11 +195,29 @@
               <item name="cse442f19" type="462c0819:PsiDirectoryNode" />
               <item name="spotme" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="Android" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="442projects-spotme-inc" type="b2602c69:ProjectViewProjectNode" />
+              <item name="442projects-spotme-inc" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="Android" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
+              <item name="layout" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -328,39 +371,118 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="23" width="1280" height="777" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Captures" order="0" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.19063005" />
-      <window_info id="Structure" order="2" side_tool="true" />
-      <window_info id="Image Layers" order="3" />
-      <window_info id="Designer" order="4" />
-      <window_info id="Resources Explorer" order="5" weight="0.32956383" />
-      <window_info id="Capture Tool" order="6" />
-      <window_info id="Favorites" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Run" />
-      <window_info anchor="bottom" id="Debug" />
-      <window_info anchor="bottom" id="Version Control" order="0" />
-      <window_info anchor="bottom" id="TODO" order="1" />
-      <window_info anchor="bottom" id="Terminal" order="2" />
-      <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Build" order="4" visible="true" weight="0.32956153" />
-      <window_info anchor="right" id="Capture Analysis" order="0" />
-      <window_info anchor="right" id="Theme Preview" order="1" />
-      <window_info anchor="right" id="Preview" order="2" />
-      <window_info anchor="right" id="Palette&#9;" order="3" />
-      <window_info anchor="right" id="Gradle" order="4" />
+      <window_info id="Build Variants" order="0" side_tool="true" />
+      <window_info id="Captures" order="1" side_tool="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="2" visible="true" weight="0.2746781" />
+      <window_info id="Structure" order="3" side_tool="true" />
+      <window_info id="Image Layers" order="4" />
+      <window_info id="Designer" order="5" />
+      <window_info id="Resources Explorer" order="6" weight="0.32956383" />
+      <window_info id="Capture Tool" order="7" />
+      <window_info id="Favorites" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="0" />
+      <window_info anchor="bottom" id="Android Profiler" order="1" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="2" weight="0.17590362" />
+      <window_info anchor="bottom" id="Logcat" order="3" weight="0.32891566" />
+      <window_info anchor="bottom" id="TODO" order="4" weight="0.32891566" />
+      <window_info anchor="bottom" id="Terminal" order="5" weight="0.32891566" />
+      <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Build" order="7" visible="true" weight="0.32956153" />
+      <window_info anchor="bottom" id="Run" order="8" />
+      <window_info anchor="bottom" id="Debug" order="9" />
+      <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" weight="0.3297568" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Theme Preview" order="2" />
+      <window_info anchor="right" id="Preview" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Gradle" order="5" />
     </layout>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Android/app/src/main/res/layout/activity_login.xml" />
-    <entry file="file://$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/MyProfile.kt">
+    <entry file="file://$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/MyProfile.kt" />
+    <entry file="file://$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/ChatActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="14" column="34" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
+        <state relative-caret-position="45">
+          <caret line="25" column="6" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Android/app/src/main/res/layout/activity_chat_screen.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Android/app/src/main/res/layout/activity_report.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Android/app/src/main/res/layout/content_chat_screen.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Android/app/src/main/java/edu/buffalo/cse/cse442f19/spotme/RatingActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="38" column="25" lean-forward="true" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Android/app/src/main/res/layout/activity_rating.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor" />
     </entry>
   </component>
 </project>

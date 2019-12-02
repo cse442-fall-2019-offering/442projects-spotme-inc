@@ -1,13 +1,13 @@
 package edu.buffalo.cse.cse442f19.spotme
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import edu.buffalo.cse.cse442f19.spotme.Globals.Companion.otherUser1
 import edu.buffalo.cse.cse442f19.spotme.utils.Date
 import edu.buffalo.cse.cse442f19.spotme.utils.Date.Companion.getAge
 import kotlinx.android.synthetic.main.activity_match_profile.*
@@ -15,8 +15,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.net.HttpURLConnection
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 class MatchProfileActivity : AppCompatActivity() {
 
@@ -28,10 +28,6 @@ class MatchProfileActivity : AppCompatActivity() {
         var task = GetPotentialMatchesAsyncTask(this)
         task.userId = Globals.currentUser!!.id
         task.execute()
-
-        /*val textView = findViewById(R.id.matchName) as TextView
-        textView.text = Globals.otherUser1?.name*/
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -42,7 +38,12 @@ class MatchProfileActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.rate -> {
-                startActivity(Intent(this, RatingActivity::class.java))
+                //val intent2 = activity.intent
+                val matchID: Int = intent.getIntExtra("match_id", 1) //user2
+                val intent = Intent(this, RatingActivity::class.java)
+                //startActivity(Intent(this, RatingActivity::class.java))
+                intent.putExtra("match_id", matchID)
+                startActivity(intent)
                 true
             }
             R.id.report -> {
@@ -52,57 +53,126 @@ class MatchProfileActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-    fun displayProf(){
-        if(Globals.selectedMatch == 0){
-            matchName1.text = Globals.otherUser1?.name
-        }else if(Globals.selectedMatch == 1){
-            matchName1.text = Globals.otherUser2?.name
-        }else if(Globals.selectedMatch == 2){
-            matchName1.text = Globals.otherUser3?.name
-        }else if(Globals.selectedMatch == 3){
-            matchName1.text = Globals.otherUser4?.name
-        }else if(Globals.selectedMatch == 4){
-            matchName1.text = Globals.otherUser5?.name
-        }else if(Globals.selectedMatch == 5){
-            matchName1.text = Globals.otherUser6?.name
+
+    fun addUser(u: JSONObject) {
+        val user: User.ScoredUser = User.ScoredUser.fromJson(u)
+
+        val dob  = Date(user.dob)
+        val age = getAge(dob)
+
+        // var matchName = TextView(this)
+        Log.d("PRINTING LOL", user.name)
+        matchName1.text = user.name
+        val levels = resources.getStringArray(R.array.select_level)
+        fitnessLevel.text = levels[user.level]
+        match_age.text = age.toString()
+
+        val genders = resources.getStringArray(R.array.select_gender)
+        match_gender.text = genders[user.gender]
+
+        val bitmap = BitmapFactory.decodeByteArray(user.picture, 0, user.picture.size)
+        imageView.setImageBitmap(bitmap)
+
+        val task = LoadRateAsyncTask(this)
+
+        task.execute()
+
+        var factors = ""
+
+        if (user.fitness_level_desired) {
+
+            factors += user.name + " matches your desired fitness level!\n"
+        }
+
+        factors += "Distance: " + user.distance + " meters" + "\n"
+        factors += "Match Score: " + user.match_score + "\n" + "Note: The match score is an arbitrary number that only represents the order in which you receive your matches."
+
+        match_factors.text = factors
+
+        acceptMatchButton.setOnClickListener {
+            val task = PutAcceptedMatchesAsyncTask()
+            task.userId1 = Globals.currentUser!!.id
+            task.userId2 = user.id
+            task.execute()
+
+            val intent = Intent(this, MatchListActivity::class.java)
+            startActivity(intent)
         }
     }
 
-    fun addUser(u: JSONObject) {
+    fun setRating(rating: Any) {
 
-        Globals.otherUser1 = User.fromJson(u)
+//        Log.d("Rating is string", ""+ (rating is String))
+//        Log.d("Rating is double", "" + (rating is Double))
+//        Log.d("Rating is float", "" + (rating is Float))
 
-        var dob  = Date(otherUser1!!.dob)
-        var age = getAge(dob)
+        if (rating is String) {
+
+            average_rating.text = "This user has not been rated yet!"
+        } else {
+
+            average_rating.text = "$rating stars!"
+        }
+    }
+
+    class LoadRateAsyncTask(private var activity: MatchProfileActivity) : AsyncTask<String, String, String>() {
+
+        override fun doInBackground(vararg p0: String?): String {
+
+            var result = ""
+
+            val intent = activity.intent
+
+            val matchID: Int = intent.getIntExtra("match_id", 1) //user1
+
+            try {
+
+                val url = URL("${Globals.ENDPOINT_BASE}/ratings?id=$matchID")
+                val conn = url.openConnection() as HttpURLConnection
+
+                conn.requestMethod = "GET"
+                conn.connect()
+
+                val responseCode: Int = conn.responseCode
+                Log.d("GetUser", "responseCode - $responseCode")
+
+                val inStream = if (responseCode >= 400) {
+                    conn.errorStream
+                } else {
+                    conn.inputStream
+                }
+                val isReader = InputStreamReader(inStream)
+                val bReader = BufferedReader(isReader)
+
+                result = bReader.readText()
 
 
-
-       // var matchName = TextView(this)
-        Log.d("PRINTING LOL", Globals.otherUser1!!.name)
-        matchName1.text = Globals.otherUser1!!.name
-        fitnessLevel.text = Globals.otherUser1!!.level.toString()
-        match_age.text = age.toString()
-        if(Globals.otherUser1!!.gender == 0){
-            match_gender.text = "Male"
-        }else{
-            match_gender.text = "Female"
+            } catch (ex: Exception) {
+                Log.d("GetUser", "Error in doInBackground " + ex.message)
+            }
+            return result
         }
 
-        acceptMatchButton.setOnClickListener {
+        override fun onPostExecute(result: String) {
 
-            var task = PutAcceptedMatchesAsyncTask()
-            task.userId1 = Globals.currentUser!!.id
-            task.userId2 = Globals.otherUser1!!.id
-            task.execute();
+            super.onPostExecute(result)
+            //handler.post(runnableCode)
 
-//            Let the API handle it.
-//            var task2 = PutAcceptedMatchesAsyncTask()
-//            task2.userId2 = Globals.currentUser!!.id
-//            task2.userId1 = Globals.otherUser1!!.id
-//            task2.execute();
+            if (result == "") {
+                Log.d("Result", "EMPTY")
+            } else {
+                Log.d("Result", result)
+
+//                Globals.currentUser = User.fromJson(JSONObject(result))
+                //Use result to get values for chat
+                val jsonObject = JSONObject(result)
+
+
+                val rating = jsonObject.get("rating")
+
+                activity.setRating(rating)
+            }
         }
-       // linlayout.addView(matchName)
-
     }
 
     class PutAcceptedMatchesAsyncTask : AsyncTask<String, String, String>() {
@@ -114,8 +184,8 @@ class MatchProfileActivity : AppCompatActivity() {
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/accepted-matches?user1=$userId1&user2=$userId2")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/accepted-matches?user1=$userId1&user2=$userId2")
+                val conn = url.openConnection() as HttpURLConnection
 
 
                 conn.requestMethod = "PUT"
@@ -158,15 +228,13 @@ class MatchProfileActivity : AppCompatActivity() {
 
         var userId: Int = 1
 
-
-
         override fun doInBackground(vararg p0: String?): String {
             var result = ""
 
             try {
 
-                val url = URL("https://api.spot-me.xyz/matches?id=$userId")
-                val conn = url.openConnection() as HttpsURLConnection
+                val url = URL("${Globals.ENDPOINT_BASE}/matches?id=$userId")
+                val conn = url.openConnection() as HttpURLConnection
 
                 conn.requestMethod = "GET"
                 conn.connect()
@@ -210,64 +278,25 @@ class MatchProfileActivity : AppCompatActivity() {
 
                 var matchArray: JSONArray = responseObj.getJSONArray("matches")
 
-                var selectedUser = matchArray[0] as JSONObject;
+                var selectedUser = matchArray[0] as JSONObject
 
                 for (i in 0 until matchArray.length()) {
                     var obj: JSONObject = matchArray[i] as JSONObject
                     var userObj = User.fromJson(obj)
 
                     if (userObj.id == Globals.selectedMatch) {
-                        selectedUser = obj;
-                        break;
+                        selectedUser = obj
+                        break
                     }
                 }
-              //  var user1Json = matchArray[0] as JSONObject
-
-//                for (i in 0..(matchArray.length())) {
-//                    //var user1Json = matchArray[0] as JSONObject
-//                    if(i == Globals.selectedMatch){
-//                        user1Json = matchArray[i] as JSONObject
-//                    }
-//                    /*Globals.otherUser1 = User.fromJson(user1Json)*/
-//
-//                    //activity.addUser(user1Json)
-//                }
                 activity.addUser(selectedUser)
-                /*var user1Json = matchArray[0] as JSONObject
-                Globals.otherUser1 = User.fromJson(user1Json)
-
-                var user2Json = matchArray[1] as JSONObject
-                Globals.otherUser2 = User.fromJson(user2Json)
-
-                var user3Json = matchArray[2] as JSONObject
-                Globals.otherUser3 = User.fromJson(user3Json)
-
-                var user4Json = matchArray[3] as JSONObject
-                Globals.otherUser4 = User.fromJson(user4Json)
-
-                var user5Json = matchArray[4] as JSONObject
-                Globals.otherUser5 = User.fromJson(user5Json)
-
-                var user6Json = matchArray[5] as JSONObject
-                Globals.otherUser6 = User.fromJson(user6Json)
-
-                var user7Json = matchArray[6] as JSONObject
-                Globals.otherUser7 = User.fromJson(user7Json)
-
-                var user8Json = matchArray[7] as JSONObject
-                Globals.otherUser8 = User.fromJson(user8Json)
-
-                var user9Json = matchArray[8] as JSONObject
-                Globals.otherUser9 = User.fromJson(user9Json)*/
-
-                //activity.displayProf()
             }
         }
     }
-
     override fun onBackPressed() {
+        super.onBackPressed()
 
-        var intent = Intent(this, MatchListActivity::class.java)
-        startActivity(intent)
+        val newIntent = Intent(this, MatchListActivity :: class.java)
+        startActivity(newIntent)
     }
 }
