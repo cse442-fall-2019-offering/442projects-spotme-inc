@@ -100,6 +100,7 @@ open class User {
                 u.partner_level = jsonObject.optInt("partner_level")
                 u.radius = jsonObject.optInt("radius")
                 u.weight = jsonObject.optDouble("weight")
+                u.picture = Base64.decode(jsonObject.optString("picture"), Base64.DEFAULT)
                 u.match_score = jsonObject.optInt("score")
                 u.distance = jsonObject.optInt("distance")
                 u.fitness_level_desired = jsonObject.optBoolean("fitness_level_desired")
